@@ -1,0 +1,59 @@
+Welcome to Madbox's Senior Dev Test :)
+
+You are to develop a system for a 3d character (the hero) in an RPG game.
+The test is divided into phases. The first Phase is mandatory and not completing it means the test was failed. We expect the first phase to be completed within 8 hours of work.
+We also added 4 Bonus Phases. These are optional and you are free to choose to develop them if you wish, in any order.
+We will evaluate code architecture, code readability, code performance, and game feel. 
+
+Phase 1: Mandatory: 
+    - Implement character movement in the 3d environment using 1 finger / Mouse left click + drag.
+        - Reference: Archero
+    - Hero will auto-attack when not moving
+    - Hero auto-selects the closest target in range and sticks to it until the target is dead or the hero moves.
+    - Hero can equip 3 different weapons: curved sword, greatsword, long sword
+    - When equipped, each weapon will modify:
+        - Attack animation speed 
+        - Timing to apply damage to fit the animation
+        - Hero's movement speed
+        - Attack range
+    - Hero starts the game with a random weapon equipped automatically.
+    - Enemies spawn in random positions on the map and stay there waiting to be attacked.
+
+Bonus Phase: The UI
+    - Enemies have health bars
+    - Each attack displays the damage done to the target
+
+Bonus Phase: Weapon drop
+    - Weapons drop from enemies when killed
+    - Hero collect and equip weapons by walking over them
+    - Equipped weapon is displayed in the HUD
+
+Bonus Phase: Better enemies
+    - Enemies have some AI that gives life to the enemies.
+    - Each enemy killed grants points that are saved in the player's profile.
+    - Enemies get stronger with each enemy kill
+    - Player takes damage and the game ends when the player dies.
+    - Hero's health bar is displayed in the HUD
+        
+Bonus Phase: Polishing
+    - The game has a start menu and end game screen.
+    - Weapon hits have visual effects
+    - Music and sound
+
+We included in the project:
+	- Assets for the hero
+	- Assets for the enemy
+	- Assets for the weapons
+	- A combat scene with a basic setup for lights, camera, and floor
+	- A scene dedicated to the UI with basic 1 finger joystick graphics.
+	- Addressables package is included
+	- TextMeshPro Essentials
+	- Unity Project is set up in a basic way using URP with Unity 2020.3.0f1
+
+When you are done, please send us your source code (via GitHub or any other online repository) so that we can make a code review.
+Please also attach a README.md document in which you'll mention
+    - The time it took you to perform the exercise
+    - The parts that were difficult for you and why
+    - The parts you think you could do better and how
+    - What you would do if you could go a step further on this game
+    - Any comment you may have
