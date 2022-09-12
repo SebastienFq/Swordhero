@@ -7,20 +7,31 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField] private Animator m_Animator = null;
     [SerializeField] private Joystick m_Joystick = null;
+    [SerializeField] private Health m_Health = null;
     [SerializeField] private Transform m_Graphics = null;
 
     private float m_MoveSpeed = 5;
     private bool m_IsMoving;
     private NavMeshHit m_NavMeshHit;
 
+    public Health Health => m_Health;
+
     private void OnEnable()
     {
         FSMManager.onGamePhaseStarted += OnGamePhaseStarted;
+        LevelManager.onLevelSpawned += OnLevelSpawned;
     }
 
     private void OnDisable()
     {
-        FSMManager.onGamePhaseStarted += OnGamePhaseStarted;
+        FSMManager.onGamePhaseStarted -= OnGamePhaseStarted;
+        LevelManager.onLevelSpawned -= OnLevelSpawned;
+    }
+
+    private void OnLevelSpawned()
+    {
+        transform.position = LevelManager.Instance.PlayerOrigin.position;
+        transform.rotation = LevelManager.Instance.PlayerOrigin.rotation;
     }
 
     private void OnGamePhaseStarted(GamePhase _Phase)
@@ -28,8 +39,6 @@ public class PlayerController : MonoBehaviour
         switch(_Phase)
         {
             case GamePhase.RESET:
-                transform.position = GameManager.Instance.PlayerSpawnPoint.position;
-                transform.rotation = GameManager.Instance.PlayerSpawnPoint.rotation;
                 m_Animator.SetBool(Constants.AnimatorValues.c_IsAttacking, false);
                 m_Animator.SetBool(Constants.AnimatorValues.c_IsMoving, false);
                 break;

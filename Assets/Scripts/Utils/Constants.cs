@@ -16,7 +16,7 @@ public static class Constants
 
     public static class GameplayValues
     {
-
+        public const string c_PlayerLevel = "PlayerLevel";
     }
 
     public static class AnimatorValues
