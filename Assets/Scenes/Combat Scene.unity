@@ -123,6 +123,27 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &36107893 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 36107893, guid: 89de4008f8cc87d4a8e2924ba9d12eb7, type: 3}
+  m_PrefabInstance: {fileID: 337934964}
+  m_PrefabAsset: {fileID: 0}
+--- !u!111 &36107894
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 36107893}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: a29a06373c1b20a40ba14232d24640ca, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: a29a06373c1b20a40ba14232d24640ca, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_CullingType: 0
 --- !u!1001 &97277001
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -338,13 +359,29 @@ PrefabInstance:
       propertyPath: m_Joystick
       value: 
       objectReference: {fileID: 1469100499}
+    - target: {fileID: 1159644490, guid: 89de4008f8cc87d4a8e2924ba9d12eb7, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 81
+      objectReference: {fileID: 0}
+    - target: {fileID: 1159644491, guid: 89de4008f8cc87d4a8e2924ba9d12eb7, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: ff9b07b9999c9cf4e80c214da402fc23, type: 3}
+    - target: {fileID: 1159644491, guid: 89de4008f8cc87d4a8e2924ba9d12eb7, type: 3}
+      propertyPath: m_Color.b
+      value: 0.22745098
+      objectReference: {fileID: 0}
+    - target: {fileID: 1159644491, guid: 89de4008f8cc87d4a8e2924ba9d12eb7, type: 3}
+      propertyPath: m_Color.g
+      value: 0.827451
+      objectReference: {fileID: 0}
+    - target: {fileID: 1159644491, guid: 89de4008f8cc87d4a8e2924ba9d12eb7, type: 3}
+      propertyPath: m_Color.r
+      value: 0.8392157
+      objectReference: {fileID: 0}
     - target: {fileID: 3206923099687242354, guid: 89de4008f8cc87d4a8e2924ba9d12eb7, type: 3}
       propertyPath: m_Name
       value: Hero
-      objectReference: {fileID: 0}
-    - target: {fileID: 3206923099687242354, guid: 89de4008f8cc87d4a8e2924ba9d12eb7, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3206923099687242365, guid: 89de4008f8cc87d4a8e2924ba9d12eb7, type: 3}
       propertyPath: m_RootOrder
@@ -1298,18 +1335,6 @@ PrefabInstance:
       propertyPath: m_Player
       value: 
       objectReference: {fileID: 476855448}
-    - target: {fileID: 3793942668059950586, guid: 64fbe4405cf825c4b882e2c7692cf275, type: 3}
-      propertyPath: m_EnemyPrefab
-      value: 
-      objectReference: {fileID: 6384776290350424643, guid: 8812e94801bab094cb274f017d98212c, type: 3}
-    - target: {fileID: 3793942668059950586, guid: 64fbe4405cf825c4b882e2c7692cf275, type: 3}
-      propertyPath: m_MaxSpawnCooldown
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 3793942668059950586, guid: 64fbe4405cf825c4b882e2c7692cf275, type: 3}
-      propertyPath: m_MaxEnemiesInLevel
-      value: 4
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 64fbe4405cf825c4b882e2c7692cf275, type: 3}
 --- !u!4 &207889344285705740 stripped
@@ -1386,10 +1411,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 381271463}
     m_Modifications:
-    - target: {fileID: 2510730977855835131, guid: bbc1a3ef000ac5c489cfe87aa56e5a0c, type: 3}
-      propertyPath: m_Levels.Array.size
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 4556340785478626129, guid: bbc1a3ef000ac5c489cfe87aa56e5a0c, type: 3}
       propertyPath: m_RootOrder
       value: 4

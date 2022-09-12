@@ -1,11 +1,16 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UnitManager : MonoBehaviour
+public class UnitManager : SingletonMB<UnitManager>
 {
-    [Header("References")]
+    private const float c_DistanceUpdateRate = 0.2f;
+
+    [Header("Scene References")]
     [SerializeField] private PlayerController m_Player;
+
+    [Header("Project References")]
     [SerializeField] private EnemyController m_EnemyPrefab;
 
     [Header("Settings")]
@@ -16,7 +21,10 @@ public class UnitManager : MonoBehaviour
     private float m_SpawnCooldown = -1f;
     private int m_SpawnCounter = 0;
     private int m_EnemiesRemainingToKill;
+    private float m_DistanceUpdateTimer;
     private List<EnemyController> m_Enemies = new List<EnemyController>();
+
+    public static Action<bool, EnemyController> onUnitsUpdated;
 
     private void Awake()
     {
@@ -39,7 +47,15 @@ public class UnitManager : MonoBehaviour
         if (FSMManager.Instance.CurrentPhase != GamePhase.GAME)
             return;
 
-        if (m_SpawnCounter >= m_MaxEnemiesInLevel)
+        m_DistanceUpdateTimer -= Time.deltaTime;
+
+        if (m_DistanceUpdateTimer <= 0)
+        {
+            SortEnemiesByDistanceFromPlayer();
+            m_DistanceUpdateTimer = c_DistanceUpdateRate;
+        }
+
+        if (m_SpawnCounter < m_MaxEnemiesInLevel)
         {
             m_SpawnCooldown -= Time.deltaTime;
 
@@ -76,6 +92,19 @@ public class UnitManager : MonoBehaviour
         }
     }
 
+    private void SortEnemiesByDistanceFromPlayer()
+    {
+        for(int i = 0; i<m_Enemies.Count; i++)
+        {
+            var e = m_Enemies[i];
+            e.SetDistanceFromPlayer(Vector3.Distance(e.transform.position, m_Player.transform.position));
+        }
+
+        m_Enemies.Sort((a, b) => a.DistanceFromPlayer.CompareTo(b.DistanceFromPlayer));
+
+        onUnitsUpdated?.Invoke(m_Enemies.Count > 0, m_Enemies.Count > 0 ? m_Enemies[0] : null);
+    }
+
     private void SetUnitsInvincible()
     {
         if (m_Player != null)
@@ -100,8 +129,18 @@ public class UnitManager : MonoBehaviour
 
     private void SpawnEnemies()
     {
-        Spawner spawner = LevelManager.Instance.Spawners.PickRandomElementInList();
-        spawner.Spawn(m_EnemyPrefab);
+        List<Spawner> spawners = new List<Spawner>(LevelManager.Instance.Spawners);
+
+        for(int i= spawners.Count - 1; i >= 0; i--)
+        {
+            if (!spawners[i].IsAvailable)
+                spawners.RemoveAt(i);
+        }
+
+        if (spawners.Count == 0)
+            return;
+
+        spawners.PickRandomElementInList().Spawn(m_EnemyPrefab);
         m_SpawnCounter++;
     }
 

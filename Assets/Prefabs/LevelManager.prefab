@@ -45,4 +45,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Levels:
   - {fileID: 4572371806203390790, guid: 1a4d47bc51c5a5542a55a248a8d42f40, type: 3}
-  - {fileID: 3997572129194326455, guid: a915bf77890f37644aa034e119b510f8, type: 3}

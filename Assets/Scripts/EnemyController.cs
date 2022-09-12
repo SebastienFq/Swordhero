@@ -14,9 +14,11 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private float m_MoveSpeed = 10;
 
     private IEnumerator moveRoutine;
+    private float m_DistanceFromPlayer = 0;
 
     public static Action<EnemyController> onDeath;
     public Health Health => m_Health;
+    public float DistanceFromPlayer => m_DistanceFromPlayer;
 
     private void OnEnable()
     {
@@ -32,6 +34,11 @@ public class EnemyController : MonoBehaviour
     {
         Health.Init(m_TotalHealth);
         GoTo(FindRandomPointInMapRange(), () => { });
+    }
+
+    public void SetDistanceFromPlayer(float _Dist)
+    {
+        m_DistanceFromPlayer = _Dist;
     }
 
     private void GoTo(Vector3 _Destination, Action _Callback)
