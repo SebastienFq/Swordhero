@@ -7,7 +7,7 @@ using VoodooPackages.Tech;
 
 public class CameraManager : SingletonMB<CameraManager>
 {
-    private const float TRANSITION_DURATION = 1;
+    private const float TRANSITION_DURATION = 0.5f;
 
     [Header("References")]
     [SerializeField] private Transform m_Origin;
@@ -23,13 +23,15 @@ public class CameraManager : SingletonMB<CameraManager>
     private float m_TargetFOV = 60;
     private Vector3 m_OriginOffset = new Vector2(0, 0);
     private Vector3 m_TargetOriginOffset = new Vector3(0, 0, 0);
-    private Vector3 m_Angle = new Vector3(60, 0, 0);
+    private Quaternion m_Angle;
+    private Quaternion m_TargetAngle;
     private float m_Distance = 50;
     private float m_TargetDistance = 50;
     private float m_RotateAround = 0;
     private float m_TargetRotateAround = 0;
     private IEnumerator recalculatePositionRoutine;
     private CameraData m_CurrentCameraData;
+    private bool m_IsTransition = false;
 
     public Camera MainCamera => m_MainCamera;
     public float Distance => m_Distance;
@@ -51,6 +53,8 @@ public class CameraManager : SingletonMB<CameraManager>
 
     private void Update()
     {
+        Debug.DrawLine(m_MainCamera.transform.position, m_Origin.position + m_TargetOriginOffset, Color.red);
+
         if (Input.GetKeyDown(KeyCode.A))
         {
             SetCameraData(m_MenuCameraData);
@@ -71,8 +75,8 @@ public class CameraManager : SingletonMB<CameraManager>
         #endif
         
      
-
-        RecalculatePosition();
+        if(!m_IsTransition)
+            RecalculatePosition();
     }
 
     /*private void OnGamePhaseStarted(GamePhase _Phase)
@@ -95,7 +99,7 @@ public class CameraManager : SingletonMB<CameraManager>
         m_TargetOriginOffset = _Data.m_OriginOffset;
         m_TargetDistance = _Data.m_Distance;
        
-        m_Angle = _Data.m_Angle;
+        m_TargetAngle = Quaternion.Euler(_Data.m_Angle);
         m_TargetRotateAround = _Data.m_RotateAround;
 
         UpdateCamera(_SkipTransition);
@@ -109,6 +113,7 @@ public class CameraManager : SingletonMB<CameraManager>
             m_Distance = m_TargetDistance;
             m_RotateAround = m_TargetRotateAround;
             m_OriginOffset = m_TargetOriginOffset;
+            m_Angle = m_TargetAngle;
             RecalculatePosition();
         }
         else
@@ -131,12 +136,12 @@ public class CameraManager : SingletonMB<CameraManager>
         m_Origin.transform.rotation = Quaternion.Euler(0, m_RotateAround, 0);
         m_Origin.transform.position = m_Target.position;
 
-        MainCamera.transform.localRotation = Quaternion.Euler(m_Angle);
+        MainCamera.transform.localRotation = m_Angle;
         MainCamera.transform.localPosition =
             new Vector3(
                 0,
-                m_Distance * Mathf.Sin(m_Angle.x * Mathf.Deg2Rad),
-                -m_Distance * Mathf.Cos(m_Angle.x * Mathf.Deg2Rad)
+                m_Distance * Mathf.Sin(m_Angle.eulerAngles.x * Mathf.Deg2Rad),
+                -m_Distance * Mathf.Cos(m_Angle.eulerAngles.x * Mathf.Deg2Rad)
             )
             + m_OriginOffset;
     }
@@ -145,22 +150,31 @@ public class CameraManager : SingletonMB<CameraManager>
     {
         float timer = 0;
         float lerp = 0;
+
         Vector3 startOriginPosition = m_Origin.transform.position;
         Vector3 endOriginPosition = m_Target.position;
+
         Quaternion startLocalRotation = MainCamera.transform.localRotation;
-        Quaternion endLocalRotation = Quaternion.Euler(m_Angle);
+        Quaternion endLocalRotation = m_TargetAngle;
+
         float startFov = m_FOV;
         float endFov = m_TargetFOV;
+
         float startRotateAround = m_RotateAround;
         float endRotateAround = m_TargetRotateAround;
+
         float startDistance = m_Distance;
         float endDistance = m_TargetDistance;
+
         Vector3 startOffset = m_OriginOffset;
         Vector3 endOffset = m_TargetOriginOffset;
+
+        m_IsTransition = true;
 
         while (timer < 1)
         {
             lerp = CalculationEasing.EaseInOutSine(0, 1, timer);
+            endOriginPosition = m_Target.position;
 
             // FOV Lerp
             m_FOV = Mathf.Lerp(startFov, endFov, lerp);
@@ -181,13 +195,14 @@ public class CameraManager : SingletonMB<CameraManager>
             m_Origin.transform.position = Vector3.Lerp(startOriginPosition, endOriginPosition, lerp);
 
             m_OriginOffset = Vector3.Lerp(startOffset, endOffset, lerp);
+            m_Angle = Quaternion.Lerp(startLocalRotation, endLocalRotation, lerp);
 
-            MainCamera.transform.localRotation = Quaternion.Lerp(startLocalRotation, endLocalRotation, lerp);
+            MainCamera.transform.localRotation = m_Angle;
             MainCamera.transform.localPosition =
                new Vector3(
                   0,
-                  m_Distance * Mathf.Sin(m_Angle.x * Mathf.Deg2Rad),
-                  -m_Distance * Mathf.Cos(m_Angle.x * Mathf.Deg2Rad)
+                  m_Distance * Mathf.Sin(m_Angle.eulerAngles.x * Mathf.Deg2Rad),
+                  -m_Distance * Mathf.Cos(m_Angle.eulerAngles.x * Mathf.Deg2Rad)
                   )
                + m_OriginOffset;
 
@@ -201,6 +216,7 @@ public class CameraManager : SingletonMB<CameraManager>
         m_Distance = m_TargetDistance;
         m_RotateAround = m_TargetRotateAround;
         m_OriginOffset = m_TargetOriginOffset;
+        m_Angle = m_TargetAngle;
         
         MainCamera.fieldOfView = endFov;
 
@@ -216,9 +232,11 @@ public class CameraManager : SingletonMB<CameraManager>
         MainCamera.transform.localPosition =
            new Vector3(
               0,
-              m_Distance * Mathf.Sin(m_Angle.x * Mathf.Deg2Rad),
-              -m_Distance * Mathf.Cos(m_Angle.x * Mathf.Deg2Rad)
+              m_Distance * Mathf.Sin(m_Angle.eulerAngles.x * Mathf.Deg2Rad),
+              -m_Distance * Mathf.Cos(m_Angle.eulerAngles.x * Mathf.Deg2Rad)
               )
            + endOffset;
+
+        m_IsTransition = false;
     }
 }
