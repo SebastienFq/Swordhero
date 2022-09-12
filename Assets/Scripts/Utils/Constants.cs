@@ -18,4 +18,10 @@ public static class Constants
     {
 
     }
+
+    public static class AnimatorValues
+    {
+        public const string c_IsMoving = "IsMoving";
+        public const string c_IsAttacking = "IsAttacking";
+    }
 }

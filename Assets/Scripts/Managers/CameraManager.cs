@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using VoodooPackages.Tech;
 
 public class CameraManager : SingletonMB<CameraManager>
 {
@@ -38,12 +37,12 @@ public class CameraManager : SingletonMB<CameraManager>
 
     private void OnEnable()
     {
-        /*FSMManager.onGamePhaseStarted += OnGamePhaseStarted;*/
+        FSMManager.onGamePhaseStarted += OnGamePhaseStarted;
     }
 
     private void OnDisable()
     {
-        /*FSMManager.onGamePhaseStarted -= OnGamePhaseStarted;*/
+        FSMManager.onGamePhaseStarted -= OnGamePhaseStarted;
     }
 
     private void Start()
@@ -79,15 +78,19 @@ public class CameraManager : SingletonMB<CameraManager>
             RecalculatePosition();
     }
 
-    /*private void OnGamePhaseStarted(GamePhase _Phase)
+    private void OnGamePhaseStarted(GamePhase _Phase)
     {
         switch(_Phase)
         {
             case GamePhase.MAIN_MENU:
-                SetCameraData(m_GameCameraData[m_CurrentCameraData]);
+                SetCameraData(m_MenuCameraData, true);
+                break;
+
+            case GamePhase.GAME:
+                SetCameraData(m_GameCameraData);
                 break;
         }
-    }*/
+    }
 
     private void SetCameraData(CameraData _Data, bool _SkipTransition = false)
     {
