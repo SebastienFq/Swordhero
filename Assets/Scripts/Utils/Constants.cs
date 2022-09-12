@@ -6,7 +6,7 @@ public static class Constants
 {
     public static class Tags
     {
-        
+        public const string c_WeaponHitbox = "WeaponHitbox";
     }
 
     public static class Layers

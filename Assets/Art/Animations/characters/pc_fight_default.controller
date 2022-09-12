@@ -17,7 +17,7 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.1
+  m_TransitionDuration: 0
   m_TransitionOffset: 0
   m_ExitTime: 0.8636364
   m_HasExitTime: 0
@@ -50,7 +50,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Hero_run
-  m_Speed: 1
+  m_Speed: 1.6
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 967524481835217402}
@@ -285,7 +285,7 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.1
+  m_TransitionDuration: 0
   m_TransitionOffset: 0
   m_ExitTime: 0.9025974
   m_HasExitTime: 0
@@ -381,7 +381,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Hero_Strike
-  m_Speed: 1
+  m_Speed: 2
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 3702660903756370347}
@@ -417,7 +417,7 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 1
   serializedVersion: 3
-  m_TransitionDuration: 0.1
+  m_TransitionDuration: 0
   m_TransitionOffset: 0
   m_ExitTime: 0.79452056
   m_HasExitTime: 0

@@ -15,6 +15,9 @@ public class GameManager : SingletonMB<GameManager>
 
     private void Awake()
     {
+        Application.targetFrameRate = 60;
+        Input.multiTouchEnabled = false;
+
         m_PlayerLevel = PlayerPrefs.GetInt(Constants.GameplayValues.c_PlayerLevel, 0);
     }
 

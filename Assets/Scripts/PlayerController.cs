@@ -7,15 +7,19 @@ public class PlayerController : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private Animator m_Animator = null;
+    [SerializeField] private PlayerAnimatorListener m_AnimatorListener = null;
     [SerializeField] private Joystick m_Joystick = null;
     [SerializeField] private Health m_Health = null;
     [SerializeField] private Transform m_Graphics = null;
     [SerializeField] private GameObject m_TargetIndicator = null;
+    [SerializeField] private Collider m_Hitbox = null;
+    [SerializeField] private Collider m_SelfCollider = null;
+    [SerializeField] private ParticleSystem m_WeaponParticles = null;
 
     [Header("Settings")]
     [SerializeField] private int m_MaxHealth = 100;
+    [SerializeField] private float m_MoveSpeed = 5;
 
-    private float m_MoveSpeed = 5;
     private bool m_IsMoving;
     private NavMeshHit m_NavMeshHit;
     private EnemyController m_NearestUnit;
@@ -33,6 +37,10 @@ public class PlayerController : MonoBehaviour
         FSMManager.onGamePhaseEnded += OnGamePhaseEnded;
         LevelManager.onLevelSpawned += OnLevelSpawned;
         UnitManager.onUnitsUpdated += OnUnitsUpdated;
+        EnemyController.onDeath += OnEnemyDeath;
+
+        m_AnimatorListener.onDamage += ActivateHitBox;
+        m_AnimatorListener.onDamage += ActivateWeaponParticles;
     }
 
     private void OnDisable()
@@ -41,6 +49,11 @@ public class PlayerController : MonoBehaviour
         FSMManager.onGamePhaseEnded -= OnGamePhaseEnded;
         LevelManager.onLevelSpawned -= OnLevelSpawned;
         UnitManager.onUnitsUpdated -= OnUnitsUpdated;
+        EnemyController.onDeath -= OnEnemyDeath;
+
+        m_AnimatorListener.onDamage -= ActivateHitBox;
+        m_AnimatorListener.onDamage -= ActivateWeaponParticles;
+
     }
 
     private void Update()
@@ -79,7 +92,7 @@ public class PlayerController : MonoBehaviour
     private void OnLevelSpawned()
     {
         transform.position = LevelManager.Instance.PlayerOrigin.position;
-        transform.rotation = LevelManager.Instance.PlayerOrigin.rotation;
+        m_Graphics.rotation = LevelManager.Instance.PlayerOrigin.rotation;
     }
 
     private void OnGamePhaseStarted(GamePhase _Phase)
@@ -92,6 +105,8 @@ public class PlayerController : MonoBehaviour
                 Health.SetHealth(m_MaxHealth);
                 m_Target = null;
                 m_TargetIndicator.gameObject.SetActive(false);
+                ActivateHitBox(false);
+                ActivateWeaponParticles(false);
                 break;
 
             case GamePhase.GAME:
@@ -106,6 +121,8 @@ public class PlayerController : MonoBehaviour
         {
             case GamePhase.GAME:
                 m_TargetIndicator.gameObject.SetActive(false);
+                StopAttacking();
+                StopMoving();
                 break;
         }
     }
@@ -178,6 +195,8 @@ public class PlayerController : MonoBehaviour
         m_Target = null;
         m_HasTarget = false;
         m_Animator.SetBool(Constants.AnimatorValues.c_IsAttacking, false);
+        ActivateHitBox(false);
+        ActivateWeaponParticles(false);
     }
 
     private void StartMoving()
@@ -204,5 +223,28 @@ public class PlayerController : MonoBehaviour
     {
         m_IsMoving = false;
         m_Animator.SetBool(Constants.AnimatorValues.c_IsMoving, false);
+    }
+
+    private void OnEnemyDeath(EnemyController _Enemy)
+    {
+        if(_Enemy == m_Target)
+        {
+            m_HasTarget = false;
+            m_Target = null;
+            m_TargetIndicator.gameObject.SetActive(false);
+        }
+    }
+
+    private void ActivateHitBox(bool _isOn)
+    {
+        m_Hitbox.enabled = _isOn;
+    }
+
+    private void ActivateWeaponParticles(bool _isOn)
+    {
+        if(_isOn)
+            m_WeaponParticles.Play();
+        else
+            m_WeaponParticles.Stop();
     }
 }

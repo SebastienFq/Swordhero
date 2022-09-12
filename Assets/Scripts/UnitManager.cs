@@ -26,7 +26,7 @@ public class UnitManager : SingletonMB<UnitManager>
 
     public static Action<bool, EnemyController> onUnitsUpdated;
 
-    private void Awake()
+    private void OnEnable()
     {
         FSMManager.onGamePhaseStarted += OnGamePhaseStarted;
         FSMManager.onGamePhaseEnded += OnGamePhaseEnded;
@@ -34,14 +34,14 @@ public class UnitManager : SingletonMB<UnitManager>
         Spawner.onEnemySpawned += OnEnemySpawned;
     }
 
-    private void OnDestroy()
+    private void OnDisable()
     {
         FSMManager.onGamePhaseStarted -= OnGamePhaseStarted;
         FSMManager.onGamePhaseEnded -= OnGamePhaseEnded;
         EnemyController.onDeath -= OnEnemyDeath;
         Spawner.onEnemySpawned -= OnEnemySpawned;
     }
-
+   
     private void Update()
     {
         if (FSMManager.Instance.CurrentPhase != GamePhase.GAME)
@@ -85,9 +85,12 @@ public class UnitManager : SingletonMB<UnitManager>
         switch (_Phase)
         {
             case GamePhase.RESET:
-                m_EnemiesRemainingToKill = m_MaxEnemiesInLevel;
                 m_SpawnCounter = 0;
                 m_SpawnCooldown = -1f;
+                m_DistanceUpdateTimer = -1;
+
+                // level objective
+                m_EnemiesRemainingToKill = GameManager.Instance.PlayerLevel / 4 + 5;
                 break;
         }
     }
@@ -142,6 +145,7 @@ public class UnitManager : SingletonMB<UnitManager>
 
         spawners.PickRandomElementInList().Spawn(m_EnemyPrefab);
         m_SpawnCounter++;
+        m_SpawnCooldown = UnityEngine.Random.Range(m_MinSpawnCooldown, m_MaxSpawnCooldown);
     }
 
     private void OnEnemyDeath(EnemyController _Enemy)
@@ -154,6 +158,10 @@ public class UnitManager : SingletonMB<UnitManager>
         if (m_EnemiesRemainingToKill <= 0)
         {
             FSMManager.Instance.ChangePhase(GamePhase.SUCCESS);
+        }
+        else
+        {
+            SortEnemiesByDistanceFromPlayer();
         }
     }
 

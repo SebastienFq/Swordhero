@@ -30,6 +30,14 @@ public class EnemyController : MonoBehaviour
         Health.onDeath -= Death;
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.tag == Constants.Tags.c_WeaponHitbox)
+        {
+            m_Health.AddHealth(100);
+        }
+    }
+
     public void Init()
     {
         Health.Init(m_TotalHealth);
