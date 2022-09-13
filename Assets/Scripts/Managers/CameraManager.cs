@@ -54,16 +54,16 @@ public class CameraManager : SingletonMB<CameraManager>
     {
         Debug.DrawLine(m_MainCamera.transform.position, m_Origin.position + m_TargetOriginOffset, Color.red);
 
-        if (Input.GetKeyDown(KeyCode.A))
+        /*if (Input.GetKeyDown(KeyCode.A))
         {
             SetCameraData(m_MenuCameraData);
 
         }
         if (Input.GetKeyDown(KeyCode.Z))
-        {
-            SetCameraData(m_GameCameraData);
+        {*/
+            SetCameraData(m_GameCameraData, true);
 
-        }
+        //}
 
     }
 
@@ -94,8 +94,8 @@ public class CameraManager : SingletonMB<CameraManager>
 
     private void SetCameraData(CameraData _Data, bool _SkipTransition = false)
     {
-        if (m_CurrentCameraData == _Data)
-            return;
+        /*if (m_CurrentCameraData == _Data)
+            return;*/
 
         m_CurrentCameraData = _Data;
         m_TargetFOV = _Data.m_FOV;

@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: dungeon_floor
+  m_Name: Water
   m_Shader: {fileID: 4800000, guid: 0a1f00cd00acb4fa389826c490384cc2, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
@@ -20,9 +20,9 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BaseMap:
-        m_Texture: {fileID: 2800000, guid: e2314a7a4b78d4e43b3f24485cf602e7, type: 3}
-        m_Scale: {x: 0.25, y: 0.25}
-        m_Offset: {x: 0, y: 0.75}
+        m_Texture: {fileID: 2800000, guid: 0df1d4a46ea0ead4b992a6ef104b0499, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _BlendTex1:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -52,9 +52,9 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: e2314a7a4b78d4e43b3f24485cf602e7, type: 3}
-        m_Scale: {x: 0.25, y: 0.25}
-        m_Offset: {x: 0, y: 0.75}
+        m_Texture: {fileID: 2800000, guid: 0df1d4a46ea0ead4b992a6ef104b0499, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -72,8 +72,8 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _TriGround:
-        m_Texture: {fileID: 2800000, guid: 01581e7bdd31a524d8ff20d7d5635526, type: 3}
-        m_Scale: {x: 0.5, y: 0.5}
+        m_Texture: {fileID: 2800000, guid: d190cd58adf2bd34fba33a5b52e6b7df, type: 3}
+        m_Scale: {x: 0.2, y: 0.2}
         m_Offset: {x: 0, y: 0}
     - _TriSide:
         m_Texture: {fileID: 0}
@@ -133,6 +133,7 @@ Material:
     - _SpecSource: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
+    - _StencilID: 0
     - _Surface: 0
     - _WorkflowMode: 1
     - _ZWrite: 1
@@ -140,11 +141,11 @@ Material:
     - __EndGroup: 0
     - __dummy__: 0
     m_Colors:
-    - _BaseColor: {r: 0.4109138, g: 0.7169812, b: 0.3077608, a: 1}
+    - _BaseColor: {r: 0.6949537, g: 0.76785666, b: 0.9150943, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _HColor: {r: 1, g: 1, b: 1, a: 1}
-    - _SColor: {r: 0.23380208, g: 0.66323894, b: 0.6981132, a: 1}
+    - _SColor: {r: 0.4716981, g: 0.4716981, b: 0.4716981, a: 1}
     - _SpecColor: {r: 0.1999999, g: 0.1999999, b: 0.1999999, a: 0}
     - _TriplanarBlendStrength: {r: 2, g: 8, b: 2, a: 0.5}
     - _VColorBlendOffset: {r: 0, g: 0, b: 0, a: 0}
