@@ -160,7 +160,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f4cdb6bfc2a1f94d961657d18fc001a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Body: {fileID: 0}
+  m_Body: {fileID: -7478009466229458400}
   m_Health: {fileID: 4401716688433257727}
   m_TotalHealth: 100
   m_MoveSpeed: 10

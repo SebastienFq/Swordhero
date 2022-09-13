@@ -21,7 +21,8 @@ public class Health : MonoBehaviour
     public void Init(int _maxHealth)
     {
         m_MaxHealth = _maxHealth;
-        m_HealthBar.SetActive(m_DisplayHealthBar);
+        if(m_HealthBar)
+            m_HealthBar.SetActive(m_DisplayHealthBar);
         SetHealth(_maxHealth);
     }
 

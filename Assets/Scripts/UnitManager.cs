@@ -26,6 +26,8 @@ public class UnitManager : SingletonMB<UnitManager>
 
     public static Action<bool, EnemyController> onUnitsUpdated;
 
+    public PlayerController Player => m_Player;
+
     private void OnEnable()
     {
         FSMManager.onGamePhaseStarted += OnGamePhaseStarted;

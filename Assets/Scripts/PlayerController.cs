@@ -5,7 +5,7 @@ using UnityEngine.AI;
 
 public class PlayerController : MonoBehaviour
 {
-    private const float c_MoveSpeedAnimation = 5f;
+    private const float c_MoveSpeedAnimation = 3f;
 
     [Header("References")]
     [SerializeField] private Animator m_Animator = null;
@@ -14,7 +14,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Health m_Health = null;
     [SerializeField] private Transform m_Graphics = null;
     [SerializeField] private GameObject m_TargetIndicator = null;
-    [SerializeField] private Collider m_Hitbox = null;
+    [SerializeField] private HitBox m_Hitbox = null;
     [SerializeField] private Collider m_SelfCollider = null;
     [SerializeField] private Transform m_WeaponSlot = null;
 
@@ -34,8 +34,10 @@ public class PlayerController : MonoBehaviour
     private Weapon m_EquippedWeapon;
     private float m_MovementSpeedMultiplier = 1;
     private float m_AttackSpeedMultiplier = 1;
+    private int m_WeaponType;
 
     public Health Health => m_Health;
+    public Weapon EquippedWeapon => m_EquippedWeapon;
 
     private void OnEnable()
     {
@@ -89,7 +91,11 @@ public class PlayerController : MonoBehaviour
                     m_TargetIndicator.gameObject.SetActive(true);
 
                 m_TargetIndicator.transform.position = m_Target.transform.position;
-            }            
+            }
+            else if (m_HasNearestUnit)
+            {
+                StartAttacking();
+            }
             else
                 m_TargetIndicator.gameObject.SetActive(false);
         }
@@ -108,7 +114,7 @@ public class PlayerController : MonoBehaviour
             case GamePhase.RESET:
                 m_Animator.SetBool(Constants.AnimatorValues.c_IsAttacking, false);
                 m_Animator.SetBool(Constants.AnimatorValues.c_IsMoving, false);
-                Health.SetHealth(m_MaxHealth);
+                m_Health.Init(m_MaxHealth);
                 m_Target = null;
                 m_TargetIndicator.gameObject.SetActive(false);
                 ActivateHitBox(false);
@@ -152,7 +158,7 @@ public class PlayerController : MonoBehaviour
     private void UpdateMovement()
     {
         m_JoyDir = m_Joystick.GetJoystickDirection();
-        var isMoving = m_Joystick.IsTouching() && m_JoyDir != Vector2.zero;
+        var isMoving = m_Joystick.IsTouching();
 
         if (isMoving)
         {
@@ -175,7 +181,8 @@ public class PlayerController : MonoBehaviour
             Attack();
         }
 
-        m_Graphics.rotation = Quaternion.LookRotation(m_WorldDir, Vector3.up);
+        if((m_JoyDir != Vector2.zero && isMoving) || !isMoving)
+            m_Graphics.rotation = Quaternion.LookRotation(m_WorldDir, Vector3.up);
     }
 
     private void StartAttacking()
@@ -185,8 +192,7 @@ public class PlayerController : MonoBehaviour
             m_HasTarget = true;
             m_Target = m_NearestUnit;
         }
-            
-
+          
         m_Animator.SetBool(Constants.AnimatorValues.c_IsAttacking, true);
     }
 
@@ -214,11 +220,11 @@ public class PlayerController : MonoBehaviour
     private void StartMoving()
     {
         m_IsMoving = true;
-        m_Animator.SetBool(Constants.AnimatorValues.c_IsMoving, true);
     }
 
     private void Move()
     {
+        m_Animator.SetBool(Constants.AnimatorValues.c_IsMoving, m_JoyDir != Vector2.zero);
         var pos = transform.position;
 
         m_WorldDir = Vector3.ProjectOnPlane(new Vector3(m_JoyDir.x, 0, m_JoyDir.y), Vector3.up).normalized;
@@ -243,13 +249,12 @@ public class PlayerController : MonoBehaviour
         {
             m_HasTarget = false;
             m_Target = null;
-            m_TargetIndicator.gameObject.SetActive(false);
         }
     }
 
     private void ActivateHitBox(bool _isOn)
     {
-        m_Hitbox.enabled = _isOn;
+        m_Hitbox.Collider.enabled = _isOn;
     }
 
     private void ActivateWeaponParticles(bool _isOn)
@@ -270,7 +275,7 @@ public class PlayerController : MonoBehaviour
         m_EquippedWeapon = _Weapon;
         m_HasWeaponEquipped = true;
 
-        var t = m_EquippedWeapon.transform;
+        var t = EquippedWeapon.transform;
 
         t.SetParent(m_WeaponSlot);
         t.localPosition = Vector3.zero;
@@ -279,26 +284,28 @@ public class PlayerController : MonoBehaviour
 
         WeaponData wd = _Weapon.Data as WeaponData;
 
-        SetHitBoxSize(wd.m_WeaponHitBox);
+        SetHitBox(wd.m_WeaponHitBox, wd.m_Damages);
         SetAttackSpeed(wd.m_AttackSpeed);
         SetMovementSpeedMultiplier(wd.m_MovementSpeedMultiplier);
+        SetWeaponType(wd.m_WeaponType);
     }
 
     private void DestroyEquippedWeapon()
     {
         if(m_HasWeaponEquipped)
         {
-            Destroy(m_EquippedWeapon);
+            Destroy(EquippedWeapon);
             m_EquippedWeapon = null;
             m_HasWeaponEquipped = false;
         }
     }
 
-    private void SetHitBoxSize(Bounds _HitBoxBounds)
+    private void SetHitBox(Bounds _HitBoxBounds, int _Damages)
     {
-        var bounds = m_Hitbox.bounds;
-        bounds.center = _HitBoxBounds.center;
-        bounds.extents = _HitBoxBounds.extents;
+        m_Hitbox.Collider.size = _HitBoxBounds.size;
+        m_Hitbox.Collider.center = _HitBoxBounds.center;
+
+        m_Hitbox.SetDamages(_Damages);
     }
 
     private void SetAttackSpeed(float _Value)
@@ -309,7 +316,13 @@ public class PlayerController : MonoBehaviour
 
     private void SetMovementSpeedMultiplier(float _Value)
     {
-        m_MovementSpeedMultiplier = m_MoveSpeed / c_MoveSpeedAnimation * _Value;
-        m_Animator.SetFloat(Constants.AnimatorValues.c_MovementSpeedMultiplier, m_MovementSpeedMultiplier);
+        m_MovementSpeedMultiplier =  _Value;
+        m_Animator.SetFloat(Constants.AnimatorValues.c_MovementSpeedMultiplier, m_MoveSpeed / c_MoveSpeedAnimation * m_MovementSpeedMultiplier);
+    }
+
+    private void SetWeaponType(int _Value)
+    {
+        m_WeaponType = _Value;
+        m_Animator.SetInteger(Constants.AnimatorValues.c_WeaponType, m_WeaponType);
     }
 }

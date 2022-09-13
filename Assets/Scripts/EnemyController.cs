@@ -34,13 +34,14 @@ public class EnemyController : MonoBehaviour
     {
         if(other.gameObject.tag == Constants.Tags.c_WeaponHitbox)
         {
-            m_Health.AddHealth(100);
+            Debug.Log(other.GetComponent<HitBox>().Damages);
+            m_Health.AddHealth(-other.GetComponent<HitBox>().Damages);
         }
     }
 
     public void Init()
     {
-        Health.Init(m_TotalHealth);
+        m_Health.Init(m_TotalHealth);
         GoTo(FindRandomPointInMapRange(), () => { });
     }
 

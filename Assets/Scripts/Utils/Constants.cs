@@ -25,5 +25,6 @@ public static class Constants
         public const string c_IsAttacking = "IsAttacking";
         public const string c_MovementSpeedMultiplier = "MovementSpeedMultiplier";
         public const string c_AttackSpeedMultiplier = "AttackSpeedMultiplier";
+        public const string c_WeaponType = "WeaponType";
     }
 }

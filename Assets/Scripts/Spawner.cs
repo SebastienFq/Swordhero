@@ -22,6 +22,7 @@ public class Spawner : MonoBehaviour
     public void Spawn(EnemyController _Enemy)
     {
         var e = Instantiate(_Enemy, transform.position, transform.rotation);
+        e.Init();
         m_Cooldown = c_SpawnCooldown;
         onEnemySpawned?.Invoke(this, e);
     }
