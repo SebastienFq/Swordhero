@@ -8,32 +8,36 @@ public class PlayerController : MonoBehaviour
     private const float c_MoveSpeedAnimation = 3f;
 
     [Header("References")]
+    [SerializeField] private Transform m_Graphics = null;
+    [SerializeField] private Collider m_SelfCollider = null;
+    [SerializeField] private Joystick m_Joystick = null;
     [SerializeField] private Animator m_Animator = null;
     [SerializeField] private PlayerAnimatorListener m_AnimatorListener = null;
-    [SerializeField] private Joystick m_Joystick = null;
-    [SerializeField] private Health m_Health = null;
-    [SerializeField] private Transform m_Graphics = null;
+    [SerializeField] private Transform m_WeaponSlot = null;
     [SerializeField] private GameObject m_TargetIndicator = null;
     [SerializeField] private HitBox m_Hitbox = null;
-    [SerializeField] private Collider m_SelfCollider = null;
-    [SerializeField] private Transform m_WeaponSlot = null;
+    [SerializeField] private Health m_Health = null;
 
     [Header("Settings")]
     [SerializeField] private int m_MaxHealth = 100;
     [SerializeField] private float m_MoveSpeed = 5;
 
-    private bool m_IsMoving;
     private NavMeshHit m_NavMeshHit;
     private EnemyController m_NearestUnit;
     private EnemyController m_Target;
+    private Weapon m_EquippedWeapon;
+
+    private bool m_HasWeaponEquipped;
+    private bool m_IsMoving;
     private bool m_HasTarget;
     private bool m_HasNearestUnit;
+
     private Vector2 m_JoyDir;
     private Vector3 m_WorldDir;
-    private bool m_HasWeaponEquipped;
-    private Weapon m_EquippedWeapon;
+
     private float m_MovementSpeedMultiplier = 1;
     private float m_AttackSpeedMultiplier = 1;
+
     private int m_WeaponType;
 
     public Health Health => m_Health;

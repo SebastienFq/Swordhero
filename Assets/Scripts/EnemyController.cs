@@ -6,7 +6,7 @@ using UnityEngine;
 public class EnemyController : MonoBehaviour
 {
     [Header("References")]
-    [SerializeField] private Rigidbody m_Body;
+    //[SerializeField] private Rigidbody m_Body;
     [SerializeField] private Health m_Health;
 
     [Header("Settings")]
