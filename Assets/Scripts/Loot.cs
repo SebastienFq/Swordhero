@@ -16,7 +16,6 @@ public class Loot : MonoBehaviour
     public void Init(Item _Item, object _LootType)
     {
         m_Item = _Item;
-        Debug.Log(_LootType);
         //m_LootType = _LootType;
     }
 }

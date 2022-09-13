@@ -16,8 +16,10 @@ public class LevelManager : SingletonMB<LevelManager>
 
     public void SpawnLevel(int _PlayerLevel)
     {
-        int idx = _PlayerLevel % m_Levels.Length;
-        m_CurrentLevel = Instantiate(m_Levels[idx]);
+        /*int idx = _PlayerLevel % m_Levels.Length;
+        m_CurrentLevel = Instantiate(m_Levels[idx]);*/
+
+        m_CurrentLevel = Instantiate(m_Levels.PickRandomElementInArray());
 
         onLevelSpawned?.Invoke();
     }

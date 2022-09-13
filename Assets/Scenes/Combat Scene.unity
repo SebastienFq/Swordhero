@@ -1304,10 +1304,6 @@ PrefabInstance:
       propertyPath: m_Player
       value: 
       objectReference: {fileID: 476855448}
-    - target: {fileID: 3793942668059950586, guid: 64fbe4405cf825c4b882e2c7692cf275, type: 3}
-      propertyPath: m_MaxEnemiesInLevel
-      value: 3
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 64fbe4405cf825c4b882e2c7692cf275, type: 3}
 --- !u!4 &207889344285705740 stripped
@@ -1559,22 +1555,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4358824131737699477, guid: 80c7c283dafba4c4b929e120f6479f65, type: 3}
-      propertyPath: m_StartingWepaons.Array.size
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 4358824131737699477, guid: 80c7c283dafba4c4b929e120f6479f65, type: 3}
-      propertyPath: m_StartingWepaons.Array.data[0]
-      value: 
-      objectReference: {fileID: 11400000, guid: eda7484214ff49645a5ad03ac2bb3949, type: 2}
-    - target: {fileID: 4358824131737699477, guid: 80c7c283dafba4c4b929e120f6479f65, type: 3}
-      propertyPath: m_StartingWepaons.Array.data[1]
-      value: 
-      objectReference: {fileID: 11400000, guid: 37c0ac3abcf70d44ba652527fafd581d, type: 2}
-    - target: {fileID: 4358824131737699477, guid: 80c7c283dafba4c4b929e120f6479f65, type: 3}
-      propertyPath: m_StartingWepaons.Array.data[2]
-      value: 
-      objectReference: {fileID: 11400000, guid: 9b12da07cc2ac4c458348b74b877d6e3, type: 2}
     - target: {fileID: 4358824131737699479, guid: 80c7c283dafba4c4b929e120f6479f65, type: 3}
       propertyPath: m_Name
       value: ItemDropManager

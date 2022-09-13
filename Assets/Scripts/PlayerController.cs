@@ -183,9 +183,7 @@ public class PlayerController : MonoBehaviour
             }
 
             Attack();
-        }
-
-        
+        } 
     }
 
     private void StartAttacking()
@@ -207,10 +205,9 @@ public class PlayerController : MonoBehaviour
                 
             }
         }
-           
-
-        
-        m_Animator.SetBool(Constants.AnimatorValues.c_IsAttacking, true);
+  
+        if(!m_Animator.GetBool(Constants.AnimatorValues.c_IsAttacking))
+            m_Animator.SetBool(Constants.AnimatorValues.c_IsAttacking, true);
     }
 
     private void Attack()
@@ -343,6 +340,5 @@ public class PlayerController : MonoBehaviour
     private void OnEndAttack()
     {
         StartAttacking();
-        Debug.Log("oups");
     }
 }

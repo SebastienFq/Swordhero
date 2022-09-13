@@ -43,7 +43,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f48c9d7b256b09047b6e8edbaa45027e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_StartingWepaons: []
+  m_StartingWepaons:
+  - {fileID: 11400000, guid: eda7484214ff49645a5ad03ac2bb3949, type: 2}
+  - {fileID: 11400000, guid: 37c0ac3abcf70d44ba652527fafd581d, type: 2}
+  - {fileID: 11400000, guid: 9b12da07cc2ac4c458348b74b877d6e3, type: 2}
   m_LootPrefab: {fileID: 6181546348111454351, guid: 02a952658cdd537428401cc1ba119c61, type: 3}
   m_ItemLootTable:
   - {fileID: 11400000, guid: c116cde5dac72464193bd189b12450ff, type: 2}

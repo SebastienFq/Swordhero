@@ -9,6 +9,8 @@ public class ItemDropManager : SingletonMB<ItemDropManager>
     [SerializeField] private Loot m_LootPrefab = null;
     [SerializeField] private List<WeightedItemData> m_ItemLootTable = new List<WeightedItemData>();
 
+    [SerializeField] private bool m_ActivateLoot = false;
+
     private float m_TotalLootTableWeight;
 
     public List<WeaponData> StartingWepaons => m_StartingWepaons;
@@ -57,7 +59,7 @@ public class ItemDropManager : SingletonMB<ItemDropManager>
     private void OnEnemyDeath(EnemyController _Enemy)
     {
         // modify value depending fo the enemy power
-        if(Roll(0.5f))
+        if(Roll(0.5f) && m_ActivateLoot)
         {
             DropLoot(_Enemy.transform.position);
         }

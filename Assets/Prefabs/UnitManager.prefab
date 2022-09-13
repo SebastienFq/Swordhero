@@ -45,6 +45,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Player: {fileID: 0}
   m_EnemyPrefab: {fileID: 6384776290350424643, guid: 8812e94801bab094cb274f017d98212c, type: 3}
-  m_MaxEnemiesInLevel: 4
+  m_MaxEnemiesInLevel: 3
   m_MinSpawnCooldown: 1
   m_MaxSpawnCooldown: 2
