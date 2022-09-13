@@ -13,7 +13,7 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private int m_TotalHealth = 100;
     [SerializeField] private float m_MoveSpeed = 10;
 
-    private IEnumerator moveRoutine;
+    //private IEnumerator moveRoutine;
     private float m_DistanceFromPlayer = 0;
 
     public static Action<EnemyController> onDeath;
@@ -42,7 +42,7 @@ public class EnemyController : MonoBehaviour
     public void Init()
     {
         m_Health.Init(m_TotalHealth);
-        GoTo(FindRandomPointInMapRange(), () => { });
+        //GoTo(FindRandomPointInMapRange(), () => { });
     }
 
     public void SetDistanceFromPlayer(float _Dist)
@@ -50,19 +50,14 @@ public class EnemyController : MonoBehaviour
         m_DistanceFromPlayer = _Dist;
     }
 
-    private void GoTo(Vector3 _Destination, Action _Callback)
+    /*private void GoTo(Vector3 _Destination, Action _Callback)
     {
         if (moveRoutine != null) StopCoroutine(moveRoutine);
         moveRoutine = MoveRoutine(_Destination, _Callback);
         StartCoroutine(moveRoutine);
-    }
+    }*/
 
-    private Vector3 FindRandomPointInMapRange()
-    {
-        return new Vector3(0, 0, 0);
-    }
-
-    private IEnumerator MoveRoutine(Vector3 _Destination, Action _Callback)
+    /*private IEnumerator MoveRoutine(Vector3 _Destination, Action _Callback)
     {
         float timer = 0;
         Vector3 start = m_Body.position;
@@ -79,7 +74,7 @@ public class EnemyController : MonoBehaviour
         m_Body.MovePosition(end);
 
         _Callback();
-    }
+    }*/
 
     private void Death()
     {

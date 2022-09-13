@@ -49,6 +49,7 @@ public class PlayerController : MonoBehaviour
 
         m_AnimatorListener.onDamage += ActivateHitBox;
         m_AnimatorListener.onDamage += ActivateWeaponParticles;
+        m_AnimatorListener.onEndAttack += OnEndAttack;
     }
 
     private void OnDisable()
@@ -61,6 +62,7 @@ public class PlayerController : MonoBehaviour
 
         m_AnimatorListener.onDamage -= ActivateHitBox;
         m_AnimatorListener.onDamage -= ActivateWeaponParticles;
+        m_AnimatorListener.onEndAttack -= OnEndAttack;
 
     }
 
@@ -94,7 +96,7 @@ public class PlayerController : MonoBehaviour
             }
             else if (m_HasNearestUnit)
             {
-                StartAttacking();
+                //StartAttacking();
             }
             else
                 m_TargetIndicator.gameObject.SetActive(false);
@@ -169,6 +171,8 @@ public class PlayerController : MonoBehaviour
             }
 
             Move();
+
+           
         }
         else
         {
@@ -181,31 +185,38 @@ public class PlayerController : MonoBehaviour
             Attack();
         }
 
-        if((m_JoyDir != Vector2.zero && isMoving) || !isMoving)
-            m_Graphics.rotation = Quaternion.LookRotation(m_WorldDir, Vector3.up);
+        
     }
 
     private void StartAttacking()
     {
-        if(m_HasNearestUnit)
+        if (!m_HasTarget)
         {
-            m_HasTarget = true;
-            m_Target = m_NearestUnit;
+            if (m_HasNearestUnit)
+            {
+                m_HasTarget = true;
+                m_Target = m_NearestUnit;
+
+                var dir = m_Target.transform.position - transform.position;
+                dir.y = 0;
+                dir.Normalize();
+
+                m_WorldDir = dir;
+
+                m_Graphics.rotation = Quaternion.LookRotation(m_WorldDir, Vector3.up);
+                
+            }
         }
-          
+           
+
+        
         m_Animator.SetBool(Constants.AnimatorValues.c_IsAttacking, true);
     }
 
     private void Attack()
     {
-        if (!m_HasTarget)
-            return;
-
-        var dir = m_Target.transform.position - transform.position;
-        dir.y = 0;
-        dir.Normalize();
-
-        m_WorldDir = dir;
+        /*if (!m_HasTarget)
+            return;*/
     }
 
     private void StopAttacking()
@@ -224,6 +235,9 @@ public class PlayerController : MonoBehaviour
 
     private void Move()
     {
+        if (m_JoyDir != Vector2.zero)
+            m_Graphics.rotation = Quaternion.LookRotation(m_WorldDir, Vector3.up);
+
         m_Animator.SetBool(Constants.AnimatorValues.c_IsMoving, m_JoyDir != Vector2.zero);
         var pos = transform.position;
 
@@ -324,5 +338,11 @@ public class PlayerController : MonoBehaviour
     {
         m_WeaponType = _Value;
         m_Animator.SetInteger(Constants.AnimatorValues.c_WeaponType, m_WeaponType);
+    }
+
+    private void OnEndAttack()
+    {
+        StartAttacking();
+        Debug.Log("oups");
     }
 }

@@ -3,12 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class Health : MonoBehaviour
 {
     [SerializeField] private bool m_DisplayHealthBar = false;
+    [SerializeField] private bool m_ShowAtMaxHealth = false;
     [SerializeField] private GameObject m_HealthBar = null;
     [SerializeField] private Image m_Fill;
+    [SerializeField] private TextMeshProUGUI m_HealthText;
 
     private int m_MaxHealth;
     private int m_CurrentHealth;
@@ -21,8 +24,7 @@ public class Health : MonoBehaviour
     public void Init(int _maxHealth)
     {
         m_MaxHealth = _maxHealth;
-        if(m_HealthBar)
-            m_HealthBar.SetActive(m_DisplayHealthBar);
+        m_HealthBar.SetActive(m_DisplayHealthBar);
         SetHealth(_maxHealth);
     }
 
@@ -38,8 +40,9 @@ public class Health : MonoBehaviour
         
         if (m_DisplayHealthBar)
         {
-            m_HealthBar.SetActive(m_CurrentHealth < m_MaxHealth && m_CurrentHealth > 0);
+            m_HealthBar.SetActive((m_CurrentHealth < m_MaxHealth || m_ShowAtMaxHealth) && m_CurrentHealth > 0 );
             m_Fill.fillAmount = m_CurrentHealth / (float)m_MaxHealth;
+            m_HealthText.text = m_CurrentHealth.ToString();
         }
       
     }
@@ -54,8 +57,9 @@ public class Health : MonoBehaviour
 
         if (m_DisplayHealthBar)
         {
-            m_HealthBar.SetActive(m_CurrentHealth < m_MaxHealth && m_CurrentHealth > 0);
+            m_HealthBar.SetActive((m_CurrentHealth < m_MaxHealth || m_ShowAtMaxHealth) && m_CurrentHealth > 0);
             m_Fill.fillAmount = m_CurrentHealth / (float) m_MaxHealth;
+            m_HealthText.text = m_CurrentHealth.ToString();
         }
 
         if(m_CurrentHealth == 0)

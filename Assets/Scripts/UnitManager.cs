@@ -145,7 +145,8 @@ public class UnitManager : SingletonMB<UnitManager>
         if (spawners.Count == 0)
             return;
 
-        spawners.PickRandomElementInList().Spawn(m_EnemyPrefab);
+        var s = spawners.PickRandomElementInList();
+        s.Spawn(m_EnemyPrefab);
         m_SpawnCounter++;
         m_SpawnCooldown = UnityEngine.Random.Range(m_MinSpawnCooldown, m_MaxSpawnCooldown);
     }

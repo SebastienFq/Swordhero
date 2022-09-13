@@ -7,6 +7,7 @@ public class PlayerAnimatorListener : MonoBehaviour
 {
     public Action<bool> onDamage;
     public Action<bool> onEffect;
+    public Action onEndAttack;
 
     public void StartDamage()
     {
@@ -26,5 +27,10 @@ public class PlayerAnimatorListener : MonoBehaviour
     public void EndSlashEffectPhase()
     {
         onEffect?.Invoke(false);
+    }
+
+    public void EndAttack()
+    {
+        onEndAttack?.Invoke();
     }
 }
