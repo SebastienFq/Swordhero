@@ -17,6 +17,7 @@ public static class Constants
     public static class GameplayValues
     {
         public const string c_PlayerLevel = "PlayerLevel";
+        public const string c_BaseTexture = "_BaseMap";
     }
 
     public static class AnimatorValues

@@ -16,7 +16,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &36107894
 Transform:
   m_ObjectHideFlags: 0
@@ -878,6 +878,7 @@ MonoBehaviour:
   m_Animator: {fileID: 4278100186079492270}
   m_AnimatorListener: {fileID: 2053663883}
   m_WeaponSlot: {fileID: 1993995369825730728}
+  m_PlayerRenderer: {fileID: 1042267208002864592}
   m_TargetIndicator: {fileID: 36107893}
   m_Hitbox: {fileID: 934233285}
   m_Health: {fileID: 2884838198263178457}

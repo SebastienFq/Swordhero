@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_ItemName: Curved Sword
   m_Item: {fileID: 8438792503336795818, guid: 571602b9bd50ab6418c514b3c3b965dd, type: 3}
+  m_CharacterSkin: {fileID: 2800000, guid: 0a1d4b6fe4e37084b964e35c2d4095b7, type: 3}
   m_WeaponHitBox:
     m_Center: {x: -0.1, y: 1, z: 0.7}
     m_Extent: {x: 1.8, y: 0.5, z: 1.4}

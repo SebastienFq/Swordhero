@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Animator m_Animator = null;
     [SerializeField] private PlayerAnimatorListener m_AnimatorListener = null;
     [SerializeField] private Transform m_WeaponSlot = null;
+    [SerializeField] private Renderer m_PlayerRenderer = null;
     [SerializeField] private GameObject m_TargetIndicator = null;
     [SerializeField] private HitBox m_Hitbox = null;
     [SerializeField] private Health m_Health = null;
@@ -233,26 +234,29 @@ public class PlayerController : MonoBehaviour
 
     private void Move()
     {
+        m_Animator.SetBool(Constants.AnimatorValues.c_IsMoving, m_JoyDir != Vector2.zero);
+
         if (m_JoyDir != Vector2.zero)
+        {
             m_Graphics.rotation = Quaternion.LookRotation(m_WorldDir, Vector3.up);
 
-        m_Animator.SetBool(Constants.AnimatorValues.c_IsMoving, m_JoyDir != Vector2.zero);
-        var pos = transform.position;
+            var pos = transform.position;
+            m_WorldDir = Vector3.ProjectOnPlane(new Vector3(m_JoyDir.x, 0, m_JoyDir.y), Vector3.up).normalized;
+            var camDir = CameraManager.Instance.CameraDirection;
+            var angleCam = Mathf.Atan2(camDir.z, camDir.x);
+            var angleDir = Mathf.Atan2(m_WorldDir.z, m_WorldDir.x);
+            var angle = angleDir + angleCam - Mathf.PI / 2;
+            m_WorldDir = new Vector3(Mathf.Cos(angle), 0, Mathf.Sin(angle)).normalized;
 
-        m_WorldDir = Vector3.ProjectOnPlane(new Vector3(m_JoyDir.x, 0, m_JoyDir.y), Vector3.up).normalized;
-        var camDir = CameraManager.Instance.CameraDirection;
-        var angleCam = Mathf.Atan2(camDir.z, camDir.x);
-        var angleDir = Mathf.Atan2(m_WorldDir.z, m_WorldDir.x);
-        var angle = angleDir + angleCam - Mathf.PI / 2;
-        m_WorldDir = new Vector3(Mathf.Cos(angle), 0, Mathf.Sin(angle)).normalized;
+            var dist = m_MoveSpeed * m_MovementSpeedMultiplier * Time.deltaTime;
+            var dest = pos + m_WorldDir * dist;
 
-        var dist = m_MoveSpeed * m_MovementSpeedMultiplier * Time.deltaTime;
-        var dest = pos + m_WorldDir * dist;
-
-        if (NavMesh.SamplePosition(dest, out m_NavMeshHit, dist, NavMesh.AllAreas))
-        {
-            transform.position = m_NavMeshHit.position;          
+            if (NavMesh.SamplePosition(dest, out m_NavMeshHit, dist, NavMesh.AllAreas))
+            {
+                transform.position = m_NavMeshHit.position;
+            }
         }
+            
     }
 
     private void StopMoving()
@@ -303,6 +307,7 @@ public class PlayerController : MonoBehaviour
 
         WeaponData wd = _Weapon.Data as WeaponData;
 
+        SetSkin(wd.m_CharacterSkin);
         SetHitBox(wd.m_WeaponHitBox, wd.m_Damages);
         SetAttackSpeed(wd.m_AttackSpeed);
         SetMovementSpeedMultiplier(wd.m_MovementSpeedMultiplier);
@@ -317,6 +322,11 @@ public class PlayerController : MonoBehaviour
             m_EquippedWeapon = null;
             m_HasWeaponEquipped = false;
         }
+    }
+    
+    private void SetSkin(Texture _Texture)
+    {
+        m_PlayerRenderer.material.SetTexture(Constants.GameplayValues.c_BaseTexture, _Texture);
     }
 
     private void SetHitBox(Bounds _HitBoxBounds, int _Damages)
