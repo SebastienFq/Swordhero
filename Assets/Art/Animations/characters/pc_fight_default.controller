@@ -391,14 +391,14 @@ AnimatorStateMachine:
   - {fileID: 8130535847184625232}
   - {fileID: -9066452332105117235}
   m_StateMachineTransitions:
-  - first: {fileID: 7637354030185315621}
-    second:
-    - {fileID: -31377102976490858}
-    - {fileID: -8262433450449446326}
   - first: {fileID: -7782869369870196503}
     second:
     - {fileID: -2810305094951914194}
     - {fileID: -4481649739007943622}
+  - first: {fileID: 7637354030185315621}
+    second:
+    - {fileID: -31377102976490858}
+    - {fileID: -8262433450449446326}
   m_StateMachineBehaviours: []
   m_AnyStatePosition: {x: 710, y: -50, z: 0}
   m_EntryPosition: {x: 140, y: 70, z: 0}
@@ -714,7 +714,7 @@ AnimatorController:
     m_Controller: {fileID: 0}
   - m_Name: AttackSpeedMultiplier
     m_Type: 1
-    m_DefaultFloat: 0
+    m_DefaultFloat: 1
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 0}

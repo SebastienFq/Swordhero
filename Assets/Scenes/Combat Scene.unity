@@ -334,10 +334,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 36107893, guid: 89de4008f8cc87d4a8e2924ba9d12eb7, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 476855448, guid: 89de4008f8cc87d4a8e2924ba9d12eb7, type: 3}
       propertyPath: m_Joystick
       value: 
@@ -1542,22 +1538,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 381271463}
     m_Modifications:
-    - target: {fileID: 2510730977855835131, guid: bbc1a3ef000ac5c489cfe87aa56e5a0c, type: 3}
-      propertyPath: m_Levels.Array.size
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 2510730977855835131, guid: bbc1a3ef000ac5c489cfe87aa56e5a0c, type: 3}
-      propertyPath: m_Levels.Array.data[0]
-      value: 
-      objectReference: {fileID: 4572371806203390790, guid: 1a4d47bc51c5a5542a55a248a8d42f40, type: 3}
-    - target: {fileID: 2510730977855835131, guid: bbc1a3ef000ac5c489cfe87aa56e5a0c, type: 3}
-      propertyPath: m_Levels.Array.data[1]
-      value: 
-      objectReference: {fileID: 4572371806203390790, guid: 26a33a13ac890184c8369428f11cf791, type: 3}
-    - target: {fileID: 2510730977855835131, guid: bbc1a3ef000ac5c489cfe87aa56e5a0c, type: 3}
-      propertyPath: m_Levels.Array.data[2]
-      value: 
-      objectReference: {fileID: 4572371806203390790, guid: 2ca8f7a39813111448dc59d2ccd3309e, type: 3}
     - target: {fileID: 4556340785478626129, guid: bbc1a3ef000ac5c489cfe87aa56e5a0c, type: 3}
       propertyPath: m_RootOrder
       value: 4

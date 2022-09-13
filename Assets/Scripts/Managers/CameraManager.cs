@@ -34,6 +34,7 @@ public class CameraManager : SingletonMB<CameraManager>
 
     public Camera MainCamera => m_MainCamera;
     public float Distance => m_Distance;
+    public Vector3 CameraDirection => Vector3.ProjectOnPlane(m_MainCamera.transform.forward, Vector3.up).normalized;
 
     private void OnEnable()
     {
@@ -50,22 +51,22 @@ public class CameraManager : SingletonMB<CameraManager>
         SetCameraData(m_MenuCameraData, true);
     }
 
+#if UNITY_EDITOR
     private void Update()
     {
         Debug.DrawLine(m_MainCamera.transform.position, m_Origin.position + m_TargetOriginOffset, Color.red);
 
-        /*if (Input.GetKeyDown(KeyCode.A))
+        if (Input.GetKeyDown(KeyCode.A))
         {
             SetCameraData(m_MenuCameraData);
 
         }
         if (Input.GetKeyDown(KeyCode.Z))
-        {*/
+        {
             SetCameraData(m_GameCameraData, true);
-
-        //}
-
+        }
     }
+#endif
 
     private void LateUpdate()
     {
@@ -94,8 +95,8 @@ public class CameraManager : SingletonMB<CameraManager>
 
     private void SetCameraData(CameraData _Data, bool _SkipTransition = false)
     {
-        /*if (m_CurrentCameraData == _Data)
-            return;*/
+        if (m_CurrentCameraData == _Data)
+            return;
 
         m_CurrentCameraData = _Data;
         m_TargetFOV = _Data.m_FOV;

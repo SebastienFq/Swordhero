@@ -16,7 +16,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &36107894
 Transform:
   m_ObjectHideFlags: 0
@@ -872,15 +872,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: edebb454fd082324f8ace067ab65d847, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_Graphics: {fileID: 3593291576063783265}
+  m_SelfCollider: {fileID: 1244182700}
+  m_Joystick: {fileID: 0}
   m_Animator: {fileID: 4278100186079492270}
   m_AnimatorListener: {fileID: 2053663883}
-  m_Joystick: {fileID: 0}
-  m_Health: {fileID: 2884838198263178457}
-  m_Graphics: {fileID: 3593291576063783265}
+  m_WeaponSlot: {fileID: 1993995369825730728}
   m_TargetIndicator: {fileID: 36107893}
   m_Hitbox: {fileID: 934233285}
-  m_SelfCollider: {fileID: 1244182700}
-  m_WeaponSlot: {fileID: 1993995369825730728}
+  m_Health: {fileID: 2884838198263178457}
   m_MaxHealth: 100
   m_MoveSpeed: 5
 --- !u!114 &2884838198263178457

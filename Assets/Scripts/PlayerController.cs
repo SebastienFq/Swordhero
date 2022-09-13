@@ -240,6 +240,12 @@ public class PlayerController : MonoBehaviour
         var pos = transform.position;
 
         m_WorldDir = Vector3.ProjectOnPlane(new Vector3(m_JoyDir.x, 0, m_JoyDir.y), Vector3.up).normalized;
+        var camDir = CameraManager.Instance.CameraDirection;
+        var angleCam = Mathf.Atan2(camDir.z, camDir.x);
+        var angleDir = Mathf.Atan2(m_WorldDir.z, m_WorldDir.x);
+        var angle = angleDir + angleCam - Mathf.PI / 2;
+        m_WorldDir = new Vector3(Mathf.Cos(angle), 0, Mathf.Sin(angle)).normalized;
+
         var dist = m_MoveSpeed * m_MovementSpeedMultiplier * Time.deltaTime;
         var dest = pos + m_WorldDir * dist;
 
