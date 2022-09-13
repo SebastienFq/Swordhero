@@ -344,7 +344,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3206923099687242365, guid: 89de4008f8cc87d4a8e2924ba9d12eb7, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 3206923099687242365, guid: 89de4008f8cc87d4a8e2924ba9d12eb7, type: 3}
       propertyPath: m_LocalPosition.x
@@ -493,7 +493,7 @@ Transform:
   - {fileID: 2510730977855835129}
   - {fileID: 2109819438}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &476855448 stripped
 MonoBehaviour:
@@ -522,10 +522,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Joystick
       objectReference: {fileID: 0}
-    - target: {fileID: 114646376191839766, guid: c98ee6c9c053b44f99919d9ada7f0de5, type: 3}
-      propertyPath: m_ResetOnClick
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 224482168712267900, guid: c98ee6c9c053b44f99919d9ada7f0de5, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -540,19 +536,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 224482168712267900, guid: c98ee6c9c053b44f99919d9ada7f0de5, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 224482168712267900, guid: c98ee6c9c053b44f99919d9ada7f0de5, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 224482168712267900, guid: c98ee6c9c053b44f99919d9ada7f0de5, type: 3}
       propertyPath: m_AnchorMin.x
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 224482168712267900, guid: c98ee6c9c053b44f99919d9ada7f0de5, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 224482168712267900, guid: c98ee6c9c053b44f99919d9ada7f0de5, type: 3}
       propertyPath: m_SizeDelta.x
@@ -720,10 +716,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2538867866738598307, guid: ade9dc1200e32bb45ad4a7d1f3cda793, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: -9.755859
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ade9dc1200e32bb45ad4a7d1f3cda793, type: 3}
 --- !u!224 &1044175013 stripped
@@ -731,25 +723,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 224934161225135830, guid: ade9dc1200e32bb45ad4a7d1f3cda793, type: 3}
   m_PrefabInstance: {fileID: 1044175012}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1044175014 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1554999880584584, guid: ade9dc1200e32bb45ad4a7d1f3cda793, type: 3}
-  m_PrefabInstance: {fileID: 1044175012}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1044175015
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1044175014}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_HorizontalFit: 2
-  m_VerticalFit: 2
 --- !u!1001 &1054675900
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -764,10 +737,6 @@ PrefabInstance:
     - target: {fileID: 2417617268461148984, guid: f0c6e5beaa8b44e578a24b43d53cd271, type: 3}
       propertyPath: m_SizeDelta.y
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2417617268461148984, guid: f0c6e5beaa8b44e578a24b43d53cd271, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -140
       objectReference: {fileID: 0}
     - target: {fileID: 5502727858057802904, guid: f0c6e5beaa8b44e578a24b43d53cd271, type: 3}
       propertyPath: m_Pivot.x
@@ -1176,7 +1145,7 @@ Transform:
   m_Children:
   - {fileID: 1459999131}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2050123220
 PrefabInstance:

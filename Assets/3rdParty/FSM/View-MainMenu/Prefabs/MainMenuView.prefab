@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 224857269332030418}
   - component: {fileID: 222800568439838172}
   - component: {fileID: 210632986219382941}
+  - component: {fileID: 1044175015}
   m_Layer: 5
   m_Name: LevelText
   m_TagString: Untagged
@@ -28,7 +29,6 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 224934161225135830}
   m_RootOrder: 0
@@ -36,7 +36,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 0, y: -140}
-  m_SizeDelta: {x: 623, y: 74.81287}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &222800568439838172
 CanvasRenderer:
@@ -66,11 +66,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Level X
+  m_text: Level #
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d45db82847841432fa6db2a4ec731f7c, type: 2}
-  m_sharedMaterial: {fileID: 4948027596043653400, guid: d45db82847841432fa6db2a4ec731f7c,
-    type: 2}
+  m_sharedMaterial: {fileID: 4948027596043653400, guid: d45db82847841432fa6db2a4ec731f7c, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -136,6 +135,20 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &1044175015
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1554999880584584}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HorizontalFit: 2
+  m_VerticalFit: 2
 --- !u!1 &1879199141287384
 GameObject:
   m_ObjectHideFlags: 0
@@ -164,7 +177,6 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 224857269332030418}
   - {fileID: 2538867866738598307}
@@ -233,15 +245,14 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 224934161225135830}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.6}
-  m_AnchorMax: {x: 1, y: 0.6}
+  m_AnchorMin: {x: 0, y: 0.35}
+  m_AnchorMax: {x: 1, y: 0.35}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -305.2247, y: 79.8775}
+  m_SizeDelta: {x: 0, y: 80}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &5243442122498091258
 CanvasRenderer:
@@ -274,8 +285,7 @@ MonoBehaviour:
   m_text: Tap To Play
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d45db82847841432fa6db2a4ec731f7c, type: 2}
-  m_sharedMaterial: {fileID: 4948027596043653400, guid: d45db82847841432fa6db2a4ec731f7c,
-    type: 2}
+  m_sharedMaterial: {fileID: 4948027596043653400, guid: d45db82847841432fa6db2a4ec731f7c, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -299,10 +309,10 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 45.7
-  m_fontSizeBase: 36
+  m_fontSize: 60
+  m_fontSizeBase: 60
   m_fontWeight: 400
-  m_enableAutoSizing: 1
+  m_enableAutoSizing: 0
   m_fontSizeMin: 0
   m_fontSizeMax: 300
   m_fontStyle: 16
@@ -369,14 +379,13 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 224934161225135830}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -9.755798, y: -41.86133}
+  m_AnchoredPosition: {x: -9.755859, y: -41.86133}
   m_SizeDelta: {x: 142.1932, y: 182.8582}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &9165803867992239208

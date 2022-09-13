@@ -17,12 +17,6 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: 258c332eb00663641841ccb2eaaf820e
   m_SerializeEntries:
-  - m_GUID: 497bc75c48d5d474bb15705b9a89a449
-    m_Address: CombatScene
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    m_MainAsset: {fileID: 0}
-    m_TargetAsset: {fileID: 0}
   - m_GUID: fe189c0006577944eaa12ec9bdff3f0f
     m_Address: UI Atlas
     m_ReadOnly: 0
