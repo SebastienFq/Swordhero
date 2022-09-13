@@ -5,6 +5,8 @@ using UnityEngine.AI;
 
 public class PlayerController : MonoBehaviour
 {
+    private const float c_MoveSpeedAnimation = 5f;
+
     [Header("References")]
     [SerializeField] private Animator m_Animator = null;
     [SerializeField] private PlayerAnimatorListener m_AnimatorListener = null;
@@ -14,7 +16,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject m_TargetIndicator = null;
     [SerializeField] private Collider m_Hitbox = null;
     [SerializeField] private Collider m_SelfCollider = null;
-    [SerializeField] private ParticleSystem m_WeaponParticles = null;
+    [SerializeField] private Transform m_WeaponSlot = null;
 
     [Header("Settings")]
     [SerializeField] private int m_MaxHealth = 100;
@@ -28,6 +30,10 @@ public class PlayerController : MonoBehaviour
     private bool m_HasNearestUnit;
     private Vector2 m_JoyDir;
     private Vector3 m_WorldDir;
+    private bool m_HasWeaponEquipped;
+    private Weapon m_EquippedWeapon;
+    private float m_MovementSpeedMultiplier = 1;
+    private float m_AttackSpeedMultiplier = 1;
 
     public Health Health => m_Health;
 
@@ -107,6 +113,12 @@ public class PlayerController : MonoBehaviour
                 m_TargetIndicator.gameObject.SetActive(false);
                 ActivateHitBox(false);
                 ActivateWeaponParticles(false);
+
+                var wd = ItemDropManager.Instance.StartingWepaons.PickRandomElementInList();
+                var weapon = Instantiate(wd.m_Item);
+                weapon.Init(wd);
+                EquipWeapon(weapon as Weapon);
+
                 break;
 
             case GamePhase.GAME:
@@ -210,7 +222,7 @@ public class PlayerController : MonoBehaviour
         var pos = transform.position;
 
         m_WorldDir = Vector3.ProjectOnPlane(new Vector3(m_JoyDir.x, 0, m_JoyDir.y), Vector3.up).normalized;
-        var dist = m_MoveSpeed * Time.deltaTime;
+        var dist = m_MoveSpeed * m_MovementSpeedMultiplier * Time.deltaTime;
         var dest = pos + m_WorldDir * dist;
 
         if (NavMesh.SamplePosition(dest, out m_NavMeshHit, dist, NavMesh.AllAreas))
@@ -242,9 +254,62 @@ public class PlayerController : MonoBehaviour
 
     private void ActivateWeaponParticles(bool _isOn)
     {
+        if (!m_HasWeaponEquipped)
+            return;
+
         if(_isOn)
-            m_WeaponParticles.Play();
+            m_EquippedWeapon.SlashParticles.Play();
         else
-            m_WeaponParticles.Stop();
+            m_EquippedWeapon.SlashParticles.Stop();
+    }
+
+    private void EquipWeapon(Weapon _Weapon)
+    {
+        DestroyEquippedWeapon();
+
+        m_EquippedWeapon = _Weapon;
+        m_HasWeaponEquipped = true;
+
+        var t = m_EquippedWeapon.transform;
+
+        t.SetParent(m_WeaponSlot);
+        t.localPosition = Vector3.zero;
+        t.localRotation = Quaternion.Euler(0, 0, 0);
+        t.localScale = Vector3.one;
+
+        WeaponData wd = _Weapon.Data as WeaponData;
+
+        SetHitBoxSize(wd.m_WeaponHitBox);
+        SetAttackSpeed(wd.m_AttackSpeed);
+        SetMovementSpeedMultiplier(wd.m_MovementSpeedMultiplier);
+    }
+
+    private void DestroyEquippedWeapon()
+    {
+        if(m_HasWeaponEquipped)
+        {
+            Destroy(m_EquippedWeapon);
+            m_EquippedWeapon = null;
+            m_HasWeaponEquipped = false;
+        }
+    }
+
+    private void SetHitBoxSize(Bounds _HitBoxBounds)
+    {
+        var bounds = m_Hitbox.bounds;
+        bounds.center = _HitBoxBounds.center;
+        bounds.extents = _HitBoxBounds.extents;
+    }
+
+    private void SetAttackSpeed(float _Value)
+    {
+        m_AttackSpeedMultiplier = _Value;
+        m_Animator.SetFloat(Constants.AnimatorValues.c_AttackSpeedMultiplier, m_AttackSpeedMultiplier);
+    }
+
+    private void SetMovementSpeedMultiplier(float _Value)
+    {
+        m_MovementSpeedMultiplier = m_MoveSpeed / c_MoveSpeedAnimation * _Value;
+        m_Animator.SetFloat(Constants.AnimatorValues.c_MovementSpeedMultiplier, m_MovementSpeedMultiplier);
     }
 }

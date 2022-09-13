@@ -7,4 +7,17 @@ public class CreateDataUtility
     {
         ScriptableObjectUtility.CreateAsset<CameraData>();
     }
+
+    [MenuItem("Assets/Create/Data/WeaponData")]
+    public static void CreateAssetWeaponData()
+    {
+        ScriptableObjectUtility.CreateAsset<WeaponData>();
+    }
+
+    [MenuItem("Assets/Create/Data/WeightedItemData")]
+    public static void CreateAssetWeightedItemData()
+    {
+        ScriptableObjectUtility.CreateAsset<WeightedItemData>();
+    }
+
 }
