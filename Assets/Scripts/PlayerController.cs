@@ -121,20 +121,17 @@ public class PlayerController : MonoBehaviour
                 m_Animator.SetBool(Constants.AnimatorValues.c_IsAttacking, false);
                 m_Animator.SetBool(Constants.AnimatorValues.c_IsMoving, false);
                 m_Health.Init(m_MaxHealth);
+                m_HasTarget = false;
                 m_Target = null;
                 m_TargetIndicator.gameObject.SetActive(false);
                 ActivateHitBox(false);
                 ActivateWeaponParticles(false);
+                m_HasNearestUnit = false;
 
                 var wd = ItemDropManager.Instance.StartingWepaons.PickRandomElementInList();
                 var weapon = Instantiate(wd.m_Item);
                 weapon.Init(wd);
                 EquipWeapon(weapon as Weapon);
-
-                break;
-
-            case GamePhase.GAME:
-                m_TargetIndicator.gameObject.SetActive(true);
                 break;
         }
     }
@@ -145,7 +142,7 @@ public class PlayerController : MonoBehaviour
         {
             case GamePhase.GAME:
                 m_TargetIndicator.gameObject.SetActive(false);
-                StopAttacking();
+                //StopAttacking();
                 StopMoving();
                 break;
         }
@@ -264,6 +261,7 @@ public class PlayerController : MonoBehaviour
         {
             m_HasTarget = false;
             m_Target = null;
+            m_TargetIndicator.gameObject.SetActive(false);
         }
     }
 
@@ -309,7 +307,7 @@ public class PlayerController : MonoBehaviour
     {
         if(m_HasWeaponEquipped)
         {
-            Destroy(EquippedWeapon);
+            Destroy(EquippedWeapon.gameObject);
             m_EquippedWeapon = null;
             m_HasWeaponEquipped = false;
         }
@@ -343,6 +341,9 @@ public class PlayerController : MonoBehaviour
 
     private void OnEndAttack()
     {
-        StartAttacking();
+        if (FSMManager.Instance.CurrentPhase != GamePhase.GAME)
+            StopAttacking();
+        else
+            StartAttacking();
     }
 }
