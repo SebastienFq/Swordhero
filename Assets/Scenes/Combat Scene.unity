@@ -1713,6 +1713,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4358824131737699477, guid: 80c7c283dafba4c4b929e120f6479f65, type: 3}
+      propertyPath: m_ActivateLoot
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4358824131737699479, guid: 80c7c283dafba4c4b929e120f6479f65, type: 3}
       propertyPath: m_Name
       value: ItemDropManager
