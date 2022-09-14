@@ -7,16 +7,16 @@ using Random = UnityEngine.Random;
 
 public class EnemyController : MonoBehaviour
 {
-    private const float c_RecalculatePathDelay = 0.2f;
-
     [Header("References")]
     [SerializeField] private Renderer m_Renderer;
     [SerializeField] private Rigidbody m_Body;
+    [SerializeField] private NavMeshAgent m_Agent;
     [SerializeField] private Health m_Health;
 
     [Header("Settings")]
     [SerializeField] private int m_TotalHealth = 100;
-    [SerializeField] private float m_MoveSpeed = 10;
+    [SerializeField] private float m_WanderingMoveSpeed = 2;
+    [SerializeField] private float m_AttackingMoveSpeed = 3.5f;
     [SerializeField] private float m_MinMoveDistance = 2;
     [SerializeField] private float m_OffsetMoveDistance = 4;
     [SerializeField] private float m_AttackDuration = 8;
@@ -30,12 +30,8 @@ public class EnemyController : MonoBehaviour
     private float m_DistanceFromPlayer = 0;
     private bool m_IsAttacking = false;
     private bool m_IsWandering = false;
-    private float m_TimerRecalculatePath;
     private PlayerController m_Player;
-    private NavMeshPath path;
-    private int m_NextTarget;
     private Vector3 m_Destination;
-    private Vector3 m_MovingDirection;
     private float m_TimerAction;
     private float m_TimerPause;
 
@@ -72,28 +68,7 @@ public class EnemyController : MonoBehaviour
 
         if (m_IsAttacking)
         {
-            m_TimerRecalculatePath -= Time.deltaTime;
-
-            if (m_TimerRecalculatePath <= 0)
-            {
-                NavMesh.CalculatePath(transform.position, m_Player.transform.position, NavMesh.AllAreas, path);
-                m_TimerRecalculatePath = c_RecalculatePathDelay;
-            }
-
-            Vector3 lastPoint = transform.position;
-
-            for (int i = 0; i < path.corners.Length; i++)
-            {
-                Debug.DrawLine(lastPoint, path.corners[i], Color.cyan, Time.deltaTime);
-                lastPoint = path.corners[i];
-            }
-
-            Debug.DrawLine(lastPoint, m_Player.transform.position, Color.cyan, Time.deltaTime);
-
-            Vector3 dir = ((path.corners.Length > 1 ? path.corners[1] : m_Player.transform.position) - transform.position).normalized;
-            dir.y = 0;
-
-            SetMovingDirection(dir);
+            m_Agent.SetDestination(m_Player.transform.position);
 
             m_TimerAction -= Time.deltaTime;
 
@@ -106,44 +81,21 @@ public class EnemyController : MonoBehaviour
         {
             if(m_IsWandering)
             {
-                if (path.corners.Length == 0) return;
+                m_Agent.SetDestination(m_Destination);
 
-                Vector3 lastPoint = path.corners[0];
-
-                for (int i = 0; i < path.corners.Length; i++)
+                if (Vector3.Distance(transform.position, m_Agent.destination) < 0.1f)
                 {
-                    Debug.DrawLine(lastPoint, path.corners[i], Color.cyan, Time.deltaTime);
-                    lastPoint = path.corners[i];
+                    ReachDestination();
                 }
-
-                if (path.corners.Length > 1)
-                {
-                    if (Vector3.Distance(transform.position, path.corners[m_NextTarget]) < 0.5f)
-                    {
-                        if (m_NextTarget + 1 >= path.corners.Length)
-                        {
-                            ReachDestination();
-                            return;
-                        }
-                        else
-                        {
-                            m_NextTarget++;
-                        }
-                    }
-                }
-
-                Vector3 dir = ((path.corners.Length > 1 ? path.corners[m_NextTarget] : m_Player.transform.position) - transform.position).normalized;
-                dir.y = 0;
-
-                SetMovingDirection(dir);             
             }
             else
             {
                 m_TimerPause -= Time.deltaTime;
 
                 if (m_TimerPause <= 0)
-                {
-                    m_IsWandering = true;
+                {                 
+                    if(FindRandomDestination())
+                        m_IsWandering = true;
                 }
             }
 
@@ -156,17 +108,8 @@ public class EnemyController : MonoBehaviour
         }
     }
 
-    private void FixedUpdate()
-    {
-        if (m_IsAttacking || m_IsWandering)
-        {
-            m_Body.MovePosition(m_Body.position + m_MovingDirection * Time.fixedDeltaTime * m_MoveSpeed);
-        }
-    }
-
     public void Init()
     {
-        path = new NavMeshPath();
         m_Health.Init(m_TotalHealth);
         m_Player = UnitManager.Instance.Player;
         StopAttack();
@@ -183,7 +126,7 @@ public class EnemyController : MonoBehaviour
 
     private bool FindRandomDestination()
     {
-        Vector2 c = UnityEngine.Random.insideUnitCircle;
+        Vector2 c = Random.insideUnitCircle;
         var randomDirection = new Vector3(c.x, 0, c.y);
 
         NavMeshHit hit;
@@ -194,8 +137,6 @@ public class EnemyController : MonoBehaviour
         }
 
         m_Destination = hit.position;
-        NavMesh.CalculatePath(transform.position, m_Destination, NavMesh.AllAreas, path);
-        m_NextTarget = 1;
         ExtensionMethods.DrawDot(m_Destination, 1, Color.magenta, 5f);
         return true;
     }
@@ -204,6 +145,7 @@ public class EnemyController : MonoBehaviour
     {
         m_IsAttacking = true;
         m_IsWandering = false;
+        m_Agent.speed = m_AttackingMoveSpeed;
         m_TimerAction = m_AttackDuration + m_AttackDurationOffset * Random.value;
         m_Renderer.material.SetColor("_EmissioNnColor", Color.red);
     }
@@ -212,6 +154,7 @@ public class EnemyController : MonoBehaviour
     {
         m_IsAttacking = false;
         m_IsWandering = false;
+        m_Agent.speed = m_WanderingMoveSpeed;
         m_TimerAction = m_WanderDuration + m_WanderDurationOffset * Random.value;
         m_Renderer.material.SetColor("_EmissioNnColor", Color.black);
     }
@@ -220,11 +163,6 @@ public class EnemyController : MonoBehaviour
     {
         m_TimerPause = m_WanderPauseDuration = m_WanderPauseDurationOffset * Random.value;
         m_IsWandering = false;       
-    }
-
-    private void SetMovingDirection(Vector3 direction)
-    {
-        m_MovingDirection = direction;
     }
 
     public void SetDistanceFromPlayer(float _Dist)

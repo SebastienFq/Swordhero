@@ -31,7 +31,7 @@ public class UIManager : MonoBehaviour
 
     }
 
-    private void Update()
+    private void LateUpdate()
     {
         foreach(HealthBarUI _HealthBar in m_HealthBars)
         {
