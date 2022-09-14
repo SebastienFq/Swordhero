@@ -7,6 +7,7 @@ public static class Constants
     public static class Tags
     {
         public const string c_WeaponHitbox = "WeaponHitbox";
+        public const string c_LootWeapon = "LootWeapon";
     }
 
     public static class Layers

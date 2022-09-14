@@ -71,6 +71,16 @@ public class PlayerController : MonoBehaviour
 
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag(Constants.Tags.c_LootWeapon))
+        {
+            var loot = other.GetComponentInParent<Loot>();
+            EquipWeapon(loot.Item as Weapon);
+            loot.Destroy();
+        }
+    }
+
     private void Update()
     {
         if (FSMManager.Instance.CurrentPhase != GamePhase.GAME)
@@ -121,6 +131,7 @@ public class PlayerController : MonoBehaviour
             case GamePhase.RESET:
                 m_Animator.SetBool(Constants.AnimatorValues.c_IsAttacking, false);
                 m_Animator.SetBool(Constants.AnimatorValues.c_IsMoving, false);
+                m_Health.Destroy();
                 m_Health.Init(m_MaxHealth);
                 m_HasTarget = false;
                 m_Target = null;
@@ -282,7 +293,7 @@ public class PlayerController : MonoBehaviour
 
     private void ActivateWeaponParticles(bool _isOn)
     {
-        if (!m_HasWeaponEquipped)
+        if (!m_HasWeaponEquipped && m_EquippedWeapon != null)
             return;
 
         if(_isOn)
@@ -312,6 +323,8 @@ public class PlayerController : MonoBehaviour
         SetAttackSpeed(wd.m_AttackSpeed);
         SetMovementSpeedMultiplier(wd.m_MovementSpeedMultiplier);
         SetWeaponType(wd.m_WeaponType);
+
+        m_Animator.SetTrigger("EquipWeapon");
     }
 
     private void DestroyEquippedWeapon()

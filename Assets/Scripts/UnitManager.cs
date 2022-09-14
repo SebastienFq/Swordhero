@@ -43,7 +43,7 @@ public class UnitManager : SingletonMB<UnitManager>
         EnemyController.onDeath -= OnEnemyDeath;
         Spawner.onEnemySpawned -= OnEnemySpawned;
     }
-   
+
     private void Update()
     {
         if (FSMManager.Instance.CurrentPhase != GamePhase.GAME)
@@ -126,7 +126,7 @@ public class UnitManager : SingletonMB<UnitManager>
     {
         for (int i = m_Enemies.Count - 1; i >= 0; i--)
         {
-            Destroy(m_Enemies[i].gameObject);
+            m_Enemies[i].Destroy();
         }
 
         m_Enemies.Clear();

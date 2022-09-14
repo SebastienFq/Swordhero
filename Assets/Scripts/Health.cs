@@ -7,25 +7,41 @@ using TMPro;
 
 public class Health : MonoBehaviour
 {
+    [Header("HealthBarUI")]
     [SerializeField] private bool m_DisplayHealthBar = false;
     [SerializeField] private bool m_ShowAtMaxHealth = false;
-    [SerializeField] private GameObject m_HealthBar = null;
-    [SerializeField] private Image m_Fill;
-    [SerializeField] private TextMeshProUGUI m_HealthText;
+    [SerializeField] private HealthBarUI m_HealthBarUIPrefab = null;
+    [SerializeField] private Vector3 m_HealthBarPosition = Vector3.zero;
 
+    private HealthBarUI m_HealthBarUI;
     private int m_MaxHealth;
     private int m_CurrentHealth;
     private bool m_IsInvincible = false;
 
     public int Value => m_CurrentHealth;
+    public HealthBarUI HealthBarUI => m_HealthBarUI;
 
+    public static Action<HealthBarUI> onHealthBarCreated;
+    public static Action<HealthBarUI> onHealthBarDestroyed;
     public Action onDeath;
     
     public void Init(int _maxHealth)
     {
         m_MaxHealth = _maxHealth;
-        m_HealthBar.SetActive(m_DisplayHealthBar);
+        
+        if(m_DisplayHealthBar)
+        {
+            CreateHealthBarUI();
+        }
+
         SetHealth(_maxHealth);
+    }
+
+    private void CreateHealthBarUI()
+    {
+        m_HealthBarUI = Instantiate(m_HealthBarUIPrefab);
+        m_HealthBarUI.Init(transform, m_HealthBarPosition);
+        onHealthBarCreated?.Invoke(m_HealthBarUI);
     }
 
     public void SetInvincibility(bool _IsInvincible)
@@ -40,11 +56,10 @@ public class Health : MonoBehaviour
         
         if (m_DisplayHealthBar)
         {
-            m_HealthBar.SetActive((m_CurrentHealth < m_MaxHealth || m_ShowAtMaxHealth) && m_CurrentHealth > 0 );
-            m_Fill.fillAmount = m_CurrentHealth / (float)m_MaxHealth;
-            m_HealthText.text = m_CurrentHealth.ToString();
-        }
-      
+            m_HealthBarUI.UpdateVisibility((m_CurrentHealth < m_MaxHealth || m_ShowAtMaxHealth) && m_CurrentHealth > 0);
+            m_HealthBarUI.UpdateFillAmount(m_CurrentHealth / (float)m_MaxHealth);
+            m_HealthBarUI.UpdateText(m_CurrentHealth.ToString());
+        }      
     }
 
     public void AddHealth(int _value)
@@ -57,12 +72,20 @@ public class Health : MonoBehaviour
 
         if (m_DisplayHealthBar)
         {
-            m_HealthBar.SetActive((m_CurrentHealth < m_MaxHealth || m_ShowAtMaxHealth) && m_CurrentHealth > 0);
-            m_Fill.fillAmount = m_CurrentHealth / (float) m_MaxHealth;
-            m_HealthText.text = m_CurrentHealth.ToString();
+            m_HealthBarUI.UpdateVisibility((m_CurrentHealth < m_MaxHealth || m_ShowAtMaxHealth) && m_CurrentHealth > 0);
+            m_HealthBarUI.UpdateFillAmount(m_CurrentHealth / (float)m_MaxHealth);
+            m_HealthBarUI.UpdateText(m_CurrentHealth.ToString());
         }
 
-        if(m_CurrentHealth == 0)
+        if (m_CurrentHealth == 0)
+        {
+            onHealthBarDestroyed?.Invoke(m_HealthBarUI);
             onDeath?.Invoke();
+        }            
+    }
+
+    public void Destroy()
+    {
+        onHealthBarDestroyed?.Invoke(m_HealthBarUI);
     }
 }

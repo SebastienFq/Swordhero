@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class ItemDropManager : SingletonMB<ItemDropManager>
 {
@@ -59,9 +60,15 @@ public class ItemDropManager : SingletonMB<ItemDropManager>
     private void OnEnemyDeath(EnemyController _Enemy)
     {
         // modify value depending fo the enemy power
-        if(Roll(0.5f) && m_ActivateLoot)
+        if(Roll(1) && m_ActivateLoot)       
         {
-            DropLoot(_Enemy.transform.position);
+            var random = Random.insideUnitCircle * 2;
+            random.Normalize();
+
+            NavMeshHit hit;
+
+            NavMesh.SamplePosition(_Enemy.transform.position + new Vector3(random.x, 0, random.y), out hit, 2.5f, NavMesh.AllAreas);
+            DropLoot(hit.position);
         }
     }
 
@@ -85,6 +92,7 @@ public class ItemDropManager : SingletonMB<ItemDropManager>
         }
 
         var loot = Instantiate(m_LootPrefab, _Position, Quaternion.identity);
+        loot.transform.rotation = Quaternion.Euler(0, Random.value * 360, 0);
         Item item = Instantiate(itemData.m_Item, loot.transform);
         item.Init(itemData);
         loot.Init(item, item.GetType());

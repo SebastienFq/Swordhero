@@ -22,11 +22,15 @@ public class EnemyController : MonoBehaviour
 
     private void OnEnable()
     {
+        FSMManager.onGamePhaseStarted += OnGamePhaseStarted;
+
         Health.onDeath += Death;
     }
 
     private void OnDisable()
     {
+        FSMManager.onGamePhaseStarted -= OnGamePhaseStarted;
+
         Health.onDeath -= Death;
     }
 
@@ -34,7 +38,6 @@ public class EnemyController : MonoBehaviour
     {
         if(other.gameObject.tag == Constants.Tags.c_WeaponHitbox)
         {
-            Debug.Log(other.GetComponent<HitBox>().Damages);
             m_Health.AddHealth(-other.GetComponent<HitBox>().Damages);
         }
     }
@@ -44,6 +47,16 @@ public class EnemyController : MonoBehaviour
         m_Health.Init(m_TotalHealth);
         //GoTo(FindRandomPointInMapRange(), () => { });
     }
+
+    private void OnGamePhaseStarted(GamePhase _Phase)
+    {
+        switch(_Phase)
+        {
+            case GamePhase.RESET:
+                break;
+        }
+    }
+
 
     public void SetDistanceFromPlayer(float _Dist)
     {
@@ -75,6 +88,12 @@ public class EnemyController : MonoBehaviour
 
         _Callback();
     }*/
+
+    public void Destroy()
+    {
+        m_Health.Destroy();
+        Destroy(gameObject);
+    }
 
     private void Death()
     {
