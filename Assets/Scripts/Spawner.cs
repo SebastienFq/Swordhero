@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.Events;
 
 public class Spawner : MonoBehaviour
@@ -44,11 +45,16 @@ public class Spawner : MonoBehaviour
 
     public void Spawn(EnemyController _Enemy)
     {
-        var e = Instantiate(_Enemy, transform.position, transform.rotation);
-        e.Init();
-        //m_Cooldown = c_SpawnCooldown;
-        m_EnemyPop = e;
-        m_IsAvailable = false;
-        onEnemySpawned?.Invoke(this, e);
+        NavMeshHit hit;
+
+        if(NavMesh.SamplePosition(_Enemy.transform.position, out hit, 1f, NavMesh.AllAreas))
+        {
+            var e = Instantiate(_Enemy, transform.position, transform.rotation);
+            e.Init();
+            //m_Cooldown = c_SpawnCooldown;
+            m_EnemyPop = e;
+            m_IsAvailable = false;
+            onEnemySpawned?.Invoke(this, e);
+        } 
     }
 }

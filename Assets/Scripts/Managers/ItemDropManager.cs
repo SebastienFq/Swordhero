@@ -67,8 +67,8 @@ public class ItemDropManager : SingletonMB<ItemDropManager>
 
             NavMeshHit hit;
 
-            NavMesh.SamplePosition(_Enemy.transform.position + new Vector3(random.x, 0, random.y), out hit, 2.5f, NavMesh.AllAreas);
-            DropLoot(hit.position);
+            if(NavMesh.SamplePosition(_Enemy.transform.position + new Vector3(random.x, 0, random.y), out hit, 2.5f, NavMesh.AllAreas))
+                DropLoot(hit.position);
         }
     }
 
