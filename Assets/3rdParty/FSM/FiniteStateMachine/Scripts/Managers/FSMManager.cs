@@ -89,10 +89,12 @@ public class FSMManager : SingletonMB<FSMManager>
         {
 			case GamePhase.MAIN_MENU:
 				m_MainMenuView.Show();
+				m_MainMenuView.m_LevelText.text = "Level " + (GameManager.Instance.PlayerLevel + 1).ToString();
 				break;
 			case GamePhase.GAME:
 				m_GameTime = Time.time;
 				m_ProgressionView.Show();
+				m_ProgressionView.m_LevelText.text = "Level " + (GameManager.Instance.PlayerLevel + 1).ToString();
 				break;
 			case GamePhase.FAILURE:
 				Debug.Log("Game time : " + (Time.time - m_GameTime).ToString("0"));

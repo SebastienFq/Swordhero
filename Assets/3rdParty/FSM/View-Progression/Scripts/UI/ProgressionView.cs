@@ -8,6 +8,8 @@ using System.Collections;
 
 public class ProgressionView : View<ProgressionView>
 {
+    public TextMeshProUGUI m_LevelText;
+
     [SerializeField] private RectTransform m_WeaponSlot;
     [SerializeField] private Image m_WeaponIcon;
     [SerializeField] private TextMeshProUGUI m_WeaponName;
