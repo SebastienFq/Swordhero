@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -43,6 +44,8 @@ public class PlayerController : MonoBehaviour
 
     public Health Health => m_Health;
     public Weapon EquippedWeapon => m_EquippedWeapon;
+
+    public static Action<ItemData> onWeaponEquipped;
 
     private void OnEnable()
     {
@@ -293,7 +296,7 @@ public class PlayerController : MonoBehaviour
 
     private void ActivateWeaponParticles(bool _isOn)
     {
-        if (!m_HasWeaponEquipped && m_EquippedWeapon != null)
+        if (!m_HasWeaponEquipped || m_EquippedWeapon == null)
             return;
 
         if(_isOn)
@@ -325,6 +328,8 @@ public class PlayerController : MonoBehaviour
         SetWeaponType(wd.m_WeaponType);
 
         m_Animator.SetTrigger("EquipWeapon");
+
+        onWeaponEquipped?.Invoke(m_EquippedWeapon.Data);
     }
 
     private void DestroyEquippedWeapon()
