@@ -102,7 +102,7 @@ public class UnitManager : SingletonMB<UnitManager>
 
     private void SortEnemiesByDistanceFromPlayer()
     {
-        for(int i = 0; i<m_Enemies.Count; i++)
+        for (int i = 0; i < m_Enemies.Count; i++)
         {
             var e = m_Enemies[i];
             e.SetDistanceFromPlayer(Vector3.Distance(e.transform.position, m_Player.transform.position));
@@ -145,11 +145,13 @@ public class UnitManager : SingletonMB<UnitManager>
                 spawners.RemoveAt(i);
         }
 
+
+
         if (spawners.Count == 0 || m_EnemiesRemainingToKill - m_SpawnCounter <= 0)
             return;
 
         var s = spawners.PickRandomElementInList();
-        s.Spawn(m_EnemiesRemainingToKill == 1? m_BossPrefab : m_EnemyPrefab);
+        s.Spawn(m_EnemiesRemainingToKill - m_SpawnCounter == 1 ? m_BossPrefab : m_EnemyPrefab);
         m_SpawnCounter++;
         m_SpawnCooldown = UnityEngine.Random.Range(m_MinSpawnCooldown, m_MaxSpawnCooldown);
     }

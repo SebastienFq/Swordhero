@@ -30,11 +30,11 @@ public class HitMarker : MonoBehaviour
         var side = (Random.value < 0.5 ? -1 : 1);
         Vector3 dir  = Vector3.Cross(camDir * side, Vector3.up).normalized;
         var color = m_Text.color;
-        Vector3 lastPosition = m_Target.position + Vector3.up * 2.5f * m_Target.transform.localScale.x;
+        Vector3 lastPosition = m_Target.position + Vector3.up * 3.5f * m_Target.transform.localScale.x;
         while (timer < 1)
         {
             if(m_Target != null)
-                lastPosition = m_Target.position + Vector3.up * 2.5f * m_Target.transform.localScale.x;
+                lastPosition = m_Target.position + Vector3.up * 3.5f * m_Target.transform.localScale.x;
 
             transform.position = lastPosition + dir * timer / 2 + Vector3.up * 0.4f * _Curve.Evaluate(timer);
             timer += Time.deltaTime / 0.4f;

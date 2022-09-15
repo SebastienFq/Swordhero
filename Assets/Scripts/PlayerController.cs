@@ -19,6 +19,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject m_TargetIndicator = null;
     [SerializeField] private HitBox m_Hitbox = null;
     [SerializeField] private Health m_Health = null;
+    [SerializeField] private ParticleSystem m_HitParticles = null;
 
     [Header("Settings")]
     [SerializeField] private int m_MaxHealth = 100;
@@ -95,7 +96,10 @@ public class PlayerController : MonoBehaviour
             var enemy = other.attachedRigidbody.GetComponent<EnemyController>();
             
             if(enemy.CanDamage)
+            {           
                 Hit(enemy.GetDamages());
+            }
+                
         }
     }
 
@@ -147,6 +151,8 @@ public class PlayerController : MonoBehaviour
         switch (_Phase)
         {
             case GamePhase.RESET:
+                StopAllCoroutines();
+                m_Health.SetInvincibility(false);
                 m_Animator.SetBool(Constants.AnimatorValues.c_IsAttacking, false);
                 m_Animator.SetBool(Constants.AnimatorValues.c_IsMoving, false);
                 if(m_Health != null)
@@ -182,11 +188,7 @@ public class PlayerController : MonoBehaviour
     private void OnUnitsUpdated(bool _HasUnits, EnemyController _Enemy)
     {
         m_HasNearestUnit = _HasUnits;
-
-        if(_HasUnits)
-        {
-            m_NearestUnit = _Enemy;
-        }
+        m_NearestUnit = _HasUnits  ? _Enemy : null;
     }
 
     private void UpdateMovement()
@@ -225,20 +227,23 @@ public class PlayerController : MonoBehaviour
             if (m_HasNearestUnit)
             {
                 m_HasTarget = true;
-                m_Target = m_NearestUnit;
-
-                var dir = m_Target.transform.position - transform.position;
-                dir.y = 0;
-                dir.Normalize();
-
-                m_WorldDir = dir;
-
-                m_Graphics.rotation = Quaternion.LookRotation(m_WorldDir, Vector3.up);
-                
+                m_Target = m_NearestUnit;                
+            }
+            else
+            {
+                return;
             }
         }
-  
-        if(!m_Animator.GetBool(Constants.AnimatorValues.c_IsAttacking))
+
+        var dir = m_Target.transform.position - transform.position;
+        dir.y = 0;
+        dir.Normalize();
+
+        m_WorldDir = dir;
+
+        m_Graphics.rotation = Quaternion.LookRotation(m_WorldDir, Vector3.up);
+
+        if (!m_Animator.GetBool(Constants.AnimatorValues.c_IsAttacking))
             m_Animator.SetBool(Constants.AnimatorValues.c_IsAttacking, true);
     }
 
@@ -413,8 +418,9 @@ public class PlayerController : MonoBehaviour
         m_Health.AddHealth(-_Damages);
         var hitMarker = Instantiate(UnitManager.Instance.HitMarkerPrefab, transform.position, Quaternion.identity);
         hitMarker.Init(transform, _Damages, false, true);
-        
-        if(m_Health.Value > 0)
+        Instantiate(m_HitParticles, transform.position + Vector3.up, Quaternion.identity);
+
+        if (m_Health.Value > 0)
         {
             m_Health.SetInvincibility(true);
             m_Animator.SetTrigger(Constants.AnimatorValues.c_Hit);

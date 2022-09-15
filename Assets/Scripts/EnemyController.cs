@@ -16,6 +16,9 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private Rigidbody m_Body;
     [SerializeField] private NavMeshAgent m_Agent;
     [SerializeField] private Health m_Health;
+    [SerializeField] private Transform m_ModelCenter;
+    [SerializeField] private ParticleSystem m_FireParticles;
+    [SerializeField] private ParticleSystem m_HitParticlesPrefab;
 
     [Header("Settings")]
     [SerializeField] private int m_TotalHealth = 100;
@@ -31,6 +34,7 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private float m_WanderPauseDuration = 2;
     [SerializeField] private float m_WanderPauseDurationOffset = 2;
     [SerializeField] private float m_DelayBeforeDangerous = 1;
+
 
     //private IEnumerator moveRoutine;
     private float m_DistanceFromPlayer = 0;
@@ -78,6 +82,8 @@ public class EnemyController : MonoBehaviour
             hitMarker.Init(transform, damages, isCritical);
             m_Health.AddHealth(-damages);
             m_Animator.SetTrigger(Constants.AnimatorValues.c_Hit);
+            var particles = Instantiate(m_HitParticlesPrefab, m_ModelCenter.position, Quaternion.identity);
+            particles.transform.localScale = (transform.localScale);
         }
     }
 
@@ -132,7 +138,7 @@ public class EnemyController : MonoBehaviour
             }
         }
 
-        m_Animator.SetBool(Constants.AnimatorValues.c_IsMoving, m_Agent.velocity.magnitude > 0.1f);
+        m_Animator.SetBool(Constants.AnimatorValues.c_IsMoving, m_Agent.velocity.magnitude > 0.25f);
     }
 
     public void Init()
@@ -181,7 +187,8 @@ public class EnemyController : MonoBehaviour
         m_BaseTimerAction = m_TimerAction = m_AttackDuration + m_AttackDurationOffset * Random.value;
         m_Renderer.material.SetColor(Constants.GameplayValues.c_EmissiveColor, Color.red);
         m_Renderer.material.SetTexture("_BaseMap", m_AngryTexture);
-        RescaleGraphics(1.5f, 0.5f);
+        RescaleGraphics(1.8f, 0.5f);
+        m_FireParticles.Play();
     }
 
     private void StopAttack()
@@ -194,6 +201,7 @@ public class EnemyController : MonoBehaviour
         m_Renderer.material.SetColor(Constants.GameplayValues.c_EmissiveColor, Color.black);
         m_Renderer.material.SetTexture("_BaseMap", m_BaseTexture);
         RescaleGraphics(1f, 0.5f);
+        m_FireParticles.Stop();
     }
 
     private void ReachDestination()

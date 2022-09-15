@@ -47,6 +47,6 @@ MonoBehaviour:
   m_EnemyPrefab: {fileID: 6384776290350424643, guid: 8812e94801bab094cb274f017d98212c, type: 3}
   m_BossPrefab: {fileID: 6384776290350424643, guid: 4b23a40a518e8eb42ac7c7e2a49828f3, type: 3}
   m_HitMarkerPrefab: {fileID: 182363143527808950, guid: 4e01bfff221a7f448b6202118d7fe7b6, type: 3}
-  m_MaxEnemiesInLevel: 1
+  m_MaxEnemiesInLevel: 3
   m_MinSpawnCooldown: 1
   m_MaxSpawnCooldown: 2
