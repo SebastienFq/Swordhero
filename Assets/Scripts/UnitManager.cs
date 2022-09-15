@@ -12,9 +12,11 @@ public class UnitManager : SingletonMB<UnitManager>
 
     [Header("Project References")]
     [SerializeField] private EnemyController m_EnemyPrefab;
+    [SerializeField] private EnemyController m_BossPrefab;
+    [SerializeField] private HitMarker m_HitMarkerPrefab;
 
     [Header("Settings")]
-    [SerializeField] private int m_MaxEnemiesInLevel = 10;
+    [SerializeField] private int m_MaxEnemiesInLevel = 3;
     [SerializeField] private float m_MinSpawnCooldown = 1f;
     [SerializeField] private float m_MaxSpawnCooldown = 5f;
 
@@ -24,9 +26,10 @@ public class UnitManager : SingletonMB<UnitManager>
     private float m_DistanceUpdateTimer;
     private List<EnemyController> m_Enemies = new List<EnemyController>();
 
-    public static Action<bool, EnemyController> onUnitsUpdated;
-
     public PlayerController Player => m_Player;
+    public HitMarker HitMarkerPrefab => m_HitMarkerPrefab;
+
+    public static Action<bool, EnemyController> onUnitsUpdated;
 
     private void OnEnable()
     {
@@ -57,7 +60,7 @@ public class UnitManager : SingletonMB<UnitManager>
             m_DistanceUpdateTimer = c_DistanceUpdateRate;
         }
 
-        if (m_SpawnCounter < m_MaxEnemiesInLevel)
+        if (m_SpawnCounter < Mathf.Min(m_MaxEnemiesInLevel + (GameManager.Instance.PlayerLevel / 10), LevelManager.Instance.Spawners.Count))
         {
             m_SpawnCooldown -= Time.deltaTime;
 
@@ -142,11 +145,11 @@ public class UnitManager : SingletonMB<UnitManager>
                 spawners.RemoveAt(i);
         }
 
-        if (spawners.Count == 0)
+        if (spawners.Count == 0 || m_EnemiesRemainingToKill - m_SpawnCounter <= 0)
             return;
 
         var s = spawners.PickRandomElementInList();
-        s.Spawn(m_EnemyPrefab);
+        s.Spawn(m_EnemiesRemainingToKill == 1? m_BossPrefab : m_EnemyPrefab);
         m_SpawnCounter++;
         m_SpawnCooldown = UnityEngine.Random.Range(m_MinSpawnCooldown, m_MaxSpawnCooldown);
     }
@@ -155,7 +158,6 @@ public class UnitManager : SingletonMB<UnitManager>
     {
         m_SpawnCounter--;
         m_Enemies.Remove(_Enemy);
-        Destroy(_Enemy);
         m_EnemiesRemainingToKill--;
 
         if (m_EnemiesRemainingToKill <= 0)

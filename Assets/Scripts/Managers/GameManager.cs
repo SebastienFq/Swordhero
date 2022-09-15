@@ -21,6 +21,17 @@ public class GameManager : SingletonMB<GameManager>
         m_PlayerLevel = PlayerPrefs.GetInt(Constants.GameplayValues.c_PlayerLevel, 0);
     }
 
+#if UNITY_EDITOR
+
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Backspace))
+        {
+            PlayerPrefs.DeleteAll();
+        }
+    }
+#endif
+
     private void OnGamePhaseStarted(GamePhase _Phase)
     {
         switch(_Phase)

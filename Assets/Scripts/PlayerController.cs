@@ -33,6 +33,7 @@ public class PlayerController : MonoBehaviour
     private bool m_IsMoving;
     private bool m_HasTarget;
     private bool m_HasNearestUnit;
+    private bool m_LockMovements = false;
 
     private Vector2 m_JoyDir;
     private Vector3 m_WorldDir;
@@ -58,6 +59,9 @@ public class PlayerController : MonoBehaviour
         m_AnimatorListener.onDamage += ActivateHitBox;
         m_AnimatorListener.onDamage += ActivateWeaponParticles;
         m_AnimatorListener.onEndAttack += OnEndAttack;
+        m_AnimatorListener.onHit += OnHit;
+
+        m_Health.onDeath += OnDeath;
     }
 
     private void OnDisable()
@@ -71,6 +75,9 @@ public class PlayerController : MonoBehaviour
         m_AnimatorListener.onDamage -= ActivateHitBox;
         m_AnimatorListener.onDamage -= ActivateWeaponParticles;
         m_AnimatorListener.onEndAttack -= OnEndAttack;
+        m_AnimatorListener.onHit -= OnHit;
+
+        m_Health.onDeath -= OnDeath;
 
     }
 
@@ -81,6 +88,14 @@ public class PlayerController : MonoBehaviour
             var loot = other.GetComponentInParent<Loot>();
             EquipWeapon(loot.Item as Weapon);
             loot.Destroy();
+        }
+
+        if (other.CompareTag(Constants.Tags.c_Enemy))
+        {
+            var enemy = other.attachedRigidbody.GetComponent<EnemyController>();
+            
+            if(enemy.CanDamage)
+                Hit(enemy.GetDamages());
         }
     }
 
@@ -134,8 +149,9 @@ public class PlayerController : MonoBehaviour
             case GamePhase.RESET:
                 m_Animator.SetBool(Constants.AnimatorValues.c_IsAttacking, false);
                 m_Animator.SetBool(Constants.AnimatorValues.c_IsMoving, false);
-                m_Health.Destroy();
-                m_Health.Init(m_MaxHealth);
+                if(m_Health != null)
+                    m_Health.Destroy();
+                m_Health.Init(m_MaxHealth + GameManager.Instance.PlayerLevel * 8);
                 m_HasTarget = false;
                 m_Target = null;
                 m_TargetIndicator.gameObject.SetActive(false);
@@ -250,7 +266,7 @@ public class PlayerController : MonoBehaviour
     {
         m_Animator.SetBool(Constants.AnimatorValues.c_IsMoving, m_JoyDir != Vector2.zero);
 
-        if (m_JoyDir != Vector2.zero)
+        if (m_JoyDir != Vector2.zero && !m_LockMovements)
         {
             m_Graphics.rotation = Quaternion.LookRotation(m_WorldDir, Vector3.up);
 
@@ -289,6 +305,11 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void OnHit(bool _IsHit)
+    {
+        m_LockMovements = _IsHit;
+    }
+
     private void ActivateHitBox(bool _isOn)
     {
         m_Hitbox.Collider.enabled = _isOn;
@@ -322,7 +343,7 @@ public class PlayerController : MonoBehaviour
         WeaponData wd = _Weapon.Data as WeaponData;
 
         SetSkin(wd.m_CharacterSkin);
-        SetHitBox(wd.m_WeaponHitBox, wd.m_Damages);
+        SetHitBox(wd.m_WeaponHitBox, wd.m_Damages, wd.m_CriticalChance);
         SetAttackSpeed(wd.m_AttackSpeed);
         SetMovementSpeedMultiplier(wd.m_MovementSpeedMultiplier);
         SetWeaponType(wd.m_WeaponType);
@@ -347,12 +368,12 @@ public class PlayerController : MonoBehaviour
         m_PlayerRenderer.material.SetTexture(Constants.GameplayValues.c_BaseTexture, _Texture);
     }
 
-    private void SetHitBox(Bounds _HitBoxBounds, int _Damages)
+    private void SetHitBox(Bounds _HitBoxBounds, int _Damages, float _CritChance)
     {
         m_Hitbox.Collider.size = _HitBoxBounds.size;
         m_Hitbox.Collider.center = _HitBoxBounds.center;
 
-        m_Hitbox.SetDamages(_Damages);
+        m_Hitbox.SetDamages(_Damages, _CritChance);
     }
 
     private void SetAttackSpeed(float _Value)
@@ -379,5 +400,31 @@ public class PlayerController : MonoBehaviour
             StopAttacking();
         else
             StartAttacking();
+    }
+
+    private IEnumerator InvincibilityRoutine()
+    {
+        yield return new WaitForSeconds(2f);
+        m_Health.SetInvincibility(false);
+    }
+
+    private void Hit(int _Damages)
+    {
+        m_Health.AddHealth(-_Damages);
+        var hitMarker = Instantiate(UnitManager.Instance.HitMarkerPrefab, transform.position, Quaternion.identity);
+        hitMarker.Init(transform, _Damages, false, true);
+        
+        if(m_Health.Value > 0)
+        {
+            m_Health.SetInvincibility(true);
+            m_Animator.SetTrigger(Constants.AnimatorValues.c_Hit);
+            StartCoroutine(InvincibilityRoutine());
+        }      
+    }
+
+    private void OnDeath()
+    {
+        m_Animator.SetTrigger(Constants.AnimatorValues.c_Death);
+        FSMManager.Instance.ChangePhase(GamePhase.FAILURE);
     }
 }

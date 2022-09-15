@@ -7,6 +7,7 @@ public class PlayerAnimatorListener : MonoBehaviour
 {
     public Action<bool> onDamage;
     public Action<bool> onEffect;
+    public Action<bool> onHit;
     public Action onEndAttack;
 
     public void StartDamage()
@@ -32,5 +33,15 @@ public class PlayerAnimatorListener : MonoBehaviour
     public void EndAttack()
     {
         onEndAttack?.Invoke();
+    }
+
+    public void HitStart()
+    {
+        onHit?.Invoke(true);
+    }
+
+    public void HitEnd()
+    {
+        onHit?.Invoke(false);
     }
 }

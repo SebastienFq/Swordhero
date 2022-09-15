@@ -766,7 +766,7 @@ MonoBehaviour:
   m_DisplayHealthBar: 1
   m_ShowAtMaxHealth: 1
   m_HealthBarUIPrefab: {fileID: 214735329230892285, guid: 349b2f73a7fbd4341869f3d1b5ff6f8e, type: 3}
-  m_HealthBarPosition: {x: 0, y: 2, z: 0}
+  m_HealthBarPosition: {x: 0, y: 2.4, z: 0}
 --- !u!54 &476855449
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1079,13 +1079,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4714827586315472000}
-  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children: []
   m_Father: {fileID: 615642381}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &1443184316880587185
 MeshFilter:
   m_ObjectHideFlags: 0

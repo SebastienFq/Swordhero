@@ -127,7 +127,7 @@ GameObject:
   - component: {fileID: -7478009466229458400}
   - component: {fileID: 5564341263745060210}
   m_Layer: 7
-  m_Name: Enemy
+  m_Name: EnemyBoss
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -142,7 +142,7 @@ Transform:
   m_GameObject: {fileID: 8908729748574462719}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
   - {fileID: 5805586251791164948}
   - {fileID: 4221589316798671047}
@@ -163,24 +163,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Animator: {fileID: 8506130599215231608}
   m_Renderer: {fileID: 8506130599210912952}
-  m_BaseTexture: {fileID: 2800000, guid: 55e2ef6bfca49bd4aacd8b3aff4049ef, type: 3}
+  m_BaseTexture: {fileID: 2800000, guid: 1143757c488f1154abe1e06286ea57e7, type: 3}
   m_AngryTexture: {fileID: 2800000, guid: 51725efc85542a64f8ea80913249a32f, type: 3}
   m_Graphics: {fileID: 5805586251791164948}
   m_Body: {fileID: -7478009466229458400}
   m_Agent: {fileID: 5564341263745060210}
   m_Health: {fileID: 4401716688433257727}
-  m_TotalHealth: 200
-  m_Damages: 24
+  m_TotalHealth: 360
+  m_Damages: 36
   m_WanderingMoveSpeed: 2
-  m_AttackingMoveSpeed: 4
+  m_AttackingMoveSpeed: 4.5
   m_MinMoveDistance: 2
   m_OffsetMoveDistance: 4
-  m_AttackDuration: 6
+  m_AttackDuration: 4
   m_AttackDurationOffset: 2
-  m_WanderDuration: 8
-  m_WanderDurationOffset: 4
-  m_WanderPauseDuration: 2
-  m_WanderPauseDurationOffset: 2
+  m_WanderDuration: 4
+  m_WanderDurationOffset: 2
+  m_WanderPauseDuration: 1
+  m_WanderPauseDurationOffset: 1
   m_DelayBeforeDangerous: 1
 --- !u!114 &4401716688433257727
 MonoBehaviour:
@@ -197,7 +197,7 @@ MonoBehaviour:
   m_DisplayHealthBar: 1
   m_ShowAtMaxHealth: 1
   m_HealthBarUIPrefab: {fileID: 214735329230892285, guid: dd5dc280e9104c04bad260ca7009ff62, type: 3}
-  m_HealthBarPosition: {x: 0, y: 2.4, z: 0}
+  m_HealthBarPosition: {x: 0, y: 4.8, z: 0}
 --- !u!54 &-7478009466229458400
 Rigidbody:
   m_ObjectHideFlags: 0

@@ -5,12 +5,14 @@ using UnityEngine.AI;
 
 public class ItemDropManager : SingletonMB<ItemDropManager>
 {
+    [Header("References")]
     [SerializeField] private List<WeaponData> m_StartingWepaons = new List<WeaponData>();
-
     [SerializeField] private Loot m_LootPrefab = null;
     [SerializeField] private List<WeightedItemData> m_ItemLootTable = new List<WeightedItemData>();
 
+    [Header("Settings")]
     [SerializeField] private bool m_ActivateLoot = false;
+    [SerializeField] [Range(0, 1f)] private float m_DropRate = 0.3f;
 
     private float m_TotalLootTableWeight;
 
@@ -60,7 +62,7 @@ public class ItemDropManager : SingletonMB<ItemDropManager>
     private void OnEnemyDeath(EnemyController _Enemy)
     {
         // modify value depending fo the enemy power
-        if(Roll(1) && m_ActivateLoot)       
+        if(Roll(m_DropRate) && m_ActivateLoot)       
         {
             var random = Random.insideUnitCircle * 2;
             random.Normalize();

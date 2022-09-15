@@ -29,7 +29,6 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8018893939699151547}
   m_RootOrder: 0
@@ -161,7 +160,6 @@ RectTransform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1.5789, y: 1.5789, z: 1.5789}
-  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8018893939699151547}
   m_RootOrder: 1
@@ -202,8 +200,7 @@ MonoBehaviour:
   m_text: Tap to Continue
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d45db82847841432fa6db2a4ec731f7c, type: 2}
-  m_sharedMaterial: {fileID: 4948027596043653400, guid: d45db82847841432fa6db2a4ec731f7c,
-    type: 2}
+  m_sharedMaterial: {fileID: 4948027596043653400, guid: d45db82847841432fa6db2a4ec731f7c, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -299,7 +296,6 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 485483032105134891}
   - {fileID: 2024507397673050145}
@@ -405,7 +401,6 @@ RectTransform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8018893939699151547}
   m_RootOrder: 2
@@ -443,11 +438,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: OPPONENT WON...
+  m_text: TRY AGAIN...
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d45db82847841432fa6db2a4ec731f7c, type: 2}
-  m_sharedMaterial: {fileID: 4948027596043653400, guid: d45db82847841432fa6db2a4ec731f7c,
-    type: 2}
+  m_sharedMaterial: {fileID: 4948027596043653400, guid: d45db82847841432fa6db2a4ec731f7c, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -471,7 +465,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 68.05
+  m_fontSize: 92.05
   m_fontSizeBase: 72
   m_fontWeight: 400
   m_enableAutoSizing: 1

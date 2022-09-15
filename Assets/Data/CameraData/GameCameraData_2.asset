@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: GameCameraData_2
   m_EditorClassIdentifier: 
   m_FOV: 60
-  m_OriginOffset: {x: 0, y: 1, z: -1}
+  m_OriginOffset: {x: 0, y: 0, z: -1}
   m_Angle: {x: 40, y: 0, z: 0}
   m_RotateAround: 30
-  m_Distance: 16
+  m_Distance: 20
